@@ -33,7 +33,6 @@ public class Calendar extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jPanel6 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -100,10 +99,6 @@ public class Calendar extends javax.swing.JPanel {
         jLabel3.setText("Fecha");
         jPanel3.add(jLabel3);
 
-        jDateChooser2.setBackground(new java.awt.Color(204, 204, 204));
-        jDateChooser2.setPreferredSize(new java.awt.Dimension(160, 22));
-        jPanel3.add(jDateChooser2);
-
         jPanel2.add(jPanel3);
 
         jPanel6.setBackground(new java.awt.Color(0, 153, 153));
@@ -148,7 +143,7 @@ public class Calendar extends javax.swing.JPanel {
         task = new Task();
         task.setName(jTextField1.getText());
         task.setLabel(jComboBox1.getSelectedIndex());
-        task.setStart(jDateChooser2.getDate());
+        //task.setStart(jDateChooser2.getDate());
         task.setDescription(jTextArea1.getText());
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -157,7 +152,6 @@ public class Calendar extends javax.swing.JPanel {
     private javax.swing.JPanel Show;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

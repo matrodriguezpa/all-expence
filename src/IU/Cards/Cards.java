@@ -5,12 +5,12 @@ import java.util.ArrayList;
 public class Cards {
     ArrayList <Task> taskColection;
     ArrayList <Recip> recipColection;
-    ArrayList <Prompt> promptColection;
+    //ArrayList <Prompt> promptColection;
 
     public Cards() {
         taskColection = new ArrayList();
         recipColection = new ArrayList();
-        promptColection = new ArrayList();
+        //promptColection = new ArrayList();
     }
 
     public void addTask(Task task) {
@@ -20,11 +20,11 @@ public class Cards {
     public void setRecip(ArrayList<Recip> recip) {
         this.recipColection = recip;
     }
-
+/*
     public void setPrompt(ArrayList<Prompt> prompt) {
         this.promptColection = prompt;
     }
-
+*/
     public ArrayList<Task> getTask() {
         return taskColection;
     }
@@ -32,10 +32,10 @@ public class Cards {
     public ArrayList<Recip> getRecip() {
         return recipColection;
     }
-
+/*
     public ArrayList<Prompt> getPrompt() {
         return promptColection;
     }
-    
+    */
     
 }
