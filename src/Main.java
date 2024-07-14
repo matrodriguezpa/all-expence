@@ -6,8 +6,11 @@ import Model.*;
 public class Main {
 
     public static void main(String[] args) {
-        Screen myScreen = new Screen();
-        myScreen.setVisible(true);
+        View myView = new View();
+        Controller myController = new Controller();
+        HomeModel myModel = new HomeModel();
+
+        myController.start(myView, myModel);
     }
 
 }

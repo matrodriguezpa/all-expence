@@ -8,6 +8,6 @@ package Model;
  *
  * @author Usuario
  */
-public class NewClass {
+public class HomeModel {
     
 }

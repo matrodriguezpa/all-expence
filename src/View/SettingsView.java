@@ -1,10 +1,10 @@
 
 package View;
 
-public class Settings extends javax.swing.JPanel {
+public class SettingsView extends javax.swing.JPanel {
 
     
-    public Settings() {
+    public SettingsView() {
         initComponents();
     }
 
