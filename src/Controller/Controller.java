@@ -2,32 +2,23 @@ package Controller;
 
 import View.*;
 import Model.*;
-import java.awt.CardLayout;
-import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class Controller {
 
-    private HomeModel model;
+    private Model model;
     private View view;
-    ReceiptView myReceipt = new ReceiptView();
-    StatsView myStats = new StatsView();
-    HistoryView myHistory = new HistoryView();
 
-    public void start(View myView, HomeModel myModel) {
-        this.view = myView;
-        this.model = myModel;
+    public void start(View myView, Model myModel) {
+        view = myView;
+        model = myModel;
 
         view.setVisible(true);
-        //myModel.loadReceipts
-        //myModel.loadData 
-        //myModel.loadHistory
-        
-        view.Main.add(myReceipt, "Receipts");
-        view.Main.add(myStats,"Stats");
-        view.Main.add(myHistory,"History");
-        }
-    
-    //Modulo de recibos
-    
-    
+    }
+
+    public void cargarExcel() {
+        model.setEgresos(View.selectedFile.getName());
+        egresos.tm.addRow(model.getEgresos());
+    }
+
 }

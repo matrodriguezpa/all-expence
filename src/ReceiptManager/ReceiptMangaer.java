@@ -1,14 +1,16 @@
+package ReceiptManager;
 
-import View.*;
-import Controller.*;
-import Model.*;
 
-public class Main {
+import View.View;
+import Controller.Controller;
+import Model.Model;
+
+public class ReceiptMangaer {
 
     public static void main(String[] args) {
         View myView = new View();
         Controller myController = new Controller();
-        HomeModel myModel = new HomeModel();
+        Model myModel = new Model();
 
         myController.start(myView, myModel);
     }

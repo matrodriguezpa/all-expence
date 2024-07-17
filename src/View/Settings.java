@@ -8,12 +8,12 @@ package View;
  *
  * @author Usuario
  */
-public class HistoryView extends javax.swing.JPanel {
+public class Settings extends javax.swing.JPanel {
 
     /**
-     * Creates new form History
+     * Creates new form NewJPanel
      */
-    public HistoryView() {
+    public Settings() {
         initComponents();
     }
 
@@ -26,20 +26,39 @@ public class HistoryView extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTree2 = new javax.swing.JTree();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTree3 = new javax.swing.JTree();
 
-        setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new java.awt.BorderLayout());
 
         jScrollPane1.setViewportView(jTree1);
 
-        add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        jTabbedPane1.addTab("tab1", jScrollPane1);
+
+        jScrollPane2.setViewportView(jTree2);
+
+        jTabbedPane1.addTab("tab2", jScrollPane2);
+
+        jScrollPane3.setViewportView(jTree3);
+
+        jTabbedPane1.addTab("tab3", jScrollPane3);
+
+        add(jTabbedPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTree jTree1;
+    private javax.swing.JTree jTree2;
+    private javax.swing.JTree jTree3;
     // End of variables declaration//GEN-END:variables
 }
