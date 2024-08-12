@@ -1,9 +1,9 @@
-package View;
+package view;
 
-public class transferencias extends javax.swing.JPanel {
+public class Transfers extends javax.swing.JPanel {
 
     
-    public transferencias() {
+    public Transfers() {
         initComponents();
         
     }

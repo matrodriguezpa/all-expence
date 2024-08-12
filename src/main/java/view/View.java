@@ -1,24 +1,24 @@
-package View;
+package view;
 
 import java.io.File;
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
-import Controller.Controller;
 
 public class View extends javax.swing.JFrame {
 
-    egresos miEgresos;
-    transferencias miTransferencias;
-    sumatoria miSumatoria;
-    matriz miMatriz;
+    Expenses miEgresos;
+    Transfers miTransferencias;
+    Resume miSumatoria;
+    Matrix miMatriz;
     
     public static File selectedFile;
 
     public View() {
         initComponents();
 
-        this.miEgresos = new egresos();
+        this.miEgresos = new Expenses();
+        this.miTransferencias = new Transfers();
+        this.miSumatoria = new Resume();
+        this.miMatriz = new Matrix();
 
         Main.add(miEgresos, "Egresos diarios");
         Main.add(miTransferencias, "Transferencias");
@@ -26,7 +26,7 @@ public class View extends javax.swing.JFrame {
         Main.add(miMatriz, "Matriz general");
     }
 
-    public egresos getMiEgresos() {
+    public Expenses getMiEgresos() {
         return miEgresos;
     }
 

@@ -1,9 +1,9 @@
 
-package View;
+package view;
 
-public class matriz extends javax.swing.JPanel {
+public class Matrix extends javax.swing.JPanel {
 
-    public matriz() {
+    public Matrix() {
         initComponents();
     }
 

@@ -1,8 +1,7 @@
-package Controller;
+package control;
 
-import View.*;
-import Model.*;
-import java.awt.Color;
+import view.*;
+import model.*;
 
 public class Controller {
 
@@ -18,7 +17,7 @@ public class Controller {
 
     public void cargarExcel() {
         model.setEgresos(View.selectedFile.getName());
-        egresos.tm.addRow(model.getEgresos());
+        //expenses.tm.addRow(model.getEgresos());
     }
 
 }

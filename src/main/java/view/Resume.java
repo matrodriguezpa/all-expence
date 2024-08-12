@@ -1,10 +1,10 @@
 
-package View;
+package view;
 
 
-public class sumatoria extends javax.swing.JPanel {
+public class Resume extends javax.swing.JPanel {
 
-    public sumatoria() {
+    public Resume() {
         initComponents();
     }
 

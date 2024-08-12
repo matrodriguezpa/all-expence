@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class Model {
                     for (int cellIndex = 0; cellIndex < row.getLastCellNum(); cellIndex++) {
                         HSSFCell cell = row.getCell(cellIndex);
                         if (cell != null) {
-                            switch (cell.getCellTypeEnum()) {
+                            switch (cell.getCellType()) {
                                 case STRING:
                                     System.out.print(cell.getStringCellValue() + "  -   ");
                                     break;

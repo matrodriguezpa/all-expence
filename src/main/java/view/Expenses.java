@@ -1,12 +1,12 @@
-package View;
+package view;
 
 import javax.swing.table.DefaultTableModel;
 
-public class egresos extends javax.swing.JPanel {
+public class Expenses extends javax.swing.JPanel {
 
     public static DefaultTableModel tm = new DefaultTableModel();
 
-    public egresos() {
+    public Expenses() {
         initComponents();
 
         String ids[] = {"Fecha", "Razón social", "Monto", "Gasto", "Matriz", "Medio de pago"};
@@ -116,18 +116,14 @@ public class egresos extends javax.swing.JPanel {
         monto.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createTitledBorder("Monto:")));
         monto.setMinimumSize(new java.awt.Dimension(180, 39));
         monto.setPreferredSize(new java.awt.Dimension(180, 40));
-        monto.setRequestFocusEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         rigth.add(monto, gridBagConstraints);
 
-        razonSocial.setToolTipText("$0");
         razonSocial.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createTitledBorder("Razón Social:")));
-        razonSocial.setDisabledTextColor(java.awt.Color.gray);
         razonSocial.setMinimumSize(new java.awt.Dimension(180, 39));
         razonSocial.setPreferredSize(new java.awt.Dimension(180, 40));
-        razonSocial.setRequestFocusEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -137,7 +133,6 @@ public class egresos extends javax.swing.JPanel {
         gasto.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createTitledBorder("Gasto:")));
         gasto.setMinimumSize(new java.awt.Dimension(180, 39));
         gasto.setPreferredSize(new java.awt.Dimension(180, 40));
-        gasto.setRequestFocusEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -159,7 +154,6 @@ public class egresos extends javax.swing.JPanel {
         medioPago.setDisabledTextColor(java.awt.Color.gray);
         medioPago.setMinimumSize(new java.awt.Dimension(180, 39));
         medioPago.setPreferredSize(new java.awt.Dimension(180, 40));
-        medioPago.setRequestFocusEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
@@ -170,7 +164,6 @@ public class egresos extends javax.swing.JPanel {
         matriz.setDisabledTextColor(java.awt.Color.gray);
         matriz.setMinimumSize(new java.awt.Dimension(180, 39));
         matriz.setPreferredSize(new java.awt.Dimension(180, 40));
-        matriz.setRequestFocusEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
