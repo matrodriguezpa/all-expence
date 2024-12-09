@@ -508,7 +508,7 @@ public class ProjectController {
         System.out.println("File type: " + fileExtension);
 
         // Add your logic to export the file to Excel here
-        String filename = filePath + "exported_file." + fileExtension;
+        String filename = filePath;
         File file = new File(filename);
         file.getParentFile().mkdirs(); // Crear directorios padres si no existen
         try (OutputStream fileOut = new FileOutputStream(file)) {

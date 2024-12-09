@@ -19,17 +19,21 @@ public class DatabaseModel {
     private static String constructDatabaseUrl() {
         // Get the user's home directory
         String userHome = System.getProperty("user.home");
-        // Construct the path to the Documents directory
-        Path documentsPath = Paths.get(userHome, "Documents", "baseDatos.db");
+
+        // Construct the path to the OneSpencer directory within Documents
+        Path documentsPath = Paths.get(userHome, "Documents", "OneSpencer", "baseDatos.db");
 
         // Check if the path exists (optional)
         if (!documentsPath.toFile().exists()) {
-            // Create the database file if it doesn't exist
             try {
-                documentsPath.toFile().getParentFile().mkdirs(); // Ensure parent directories exist
-                documentsPath.toFile().createNewFile(); // Create the database file
+                // Create the parent directories if they don't exist
+                documentsPath.toFile().getParentFile().mkdirs();
+
+                // Create the database file
+                documentsPath.toFile().createNewFile();
             } catch (IOException e) {
-                System.out.println(e); // Handle exceptions
+                // Log the exception with more detailed error handling
+                System.err.println("Error creating database file: " + e.getMessage());
             }
         }
 
