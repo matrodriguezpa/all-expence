@@ -8,12 +8,12 @@ package matrodriguezpa.onespencer.view;
  *
  * @author Usuario
  */
-public class LoadingView extends javax.swing.JPanel {
+public class Loading extends javax.swing.JPanel {
 
     /**
      * Creates new form NewJPanel
      */
-    public LoadingView() {
+    public Loading() {
         initComponents();
     }
 
@@ -28,6 +28,9 @@ public class LoadingView extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jSplitPane1 = new javax.swing.JSplitPane();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 102, 153));
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -36,6 +39,21 @@ public class LoadingView extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(255, 51, 102));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Tittle.png"))); // NOI18N
         jPanel1.add(jLabel1, java.awt.BorderLayout.CENTER);
+
+        jSplitPane1.setBackground(new java.awt.Color(255, 51, 102));
+        jSplitPane1.setDividerLocation(150);
+        jSplitPane1.setDividerSize(0);
+
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel2.setText("By matrodriguezpa");
+        jSplitPane1.setRightComponent(jLabel2);
+
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("v0.1 beta");
+        jSplitPane1.setLeftComponent(jLabel3);
+
+        jPanel1.add(jSplitPane1, java.awt.BorderLayout.SOUTH);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -50,7 +68,7 @@ public class LoadingView extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 345, Short.MAX_VALUE)
+            .addGap(0, 361, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -62,6 +80,9 @@ public class LoadingView extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JSplitPane jSplitPane1;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,8 +5,11 @@ import javax.swing.UIManager; // Para mostrar el icono
 import javax.swing.UnsupportedLookAndFeelException; // Expepsiones el cargar los estilos
 import com.formdev.flatlaf.FlatLightLaf; //Generar estilos de la aplicaciòn
 import com.toedter.calendar.JDateChooser;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -14,18 +17,39 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 
-public class ProjectView extends javax.swing.JFrame {
+public class Project extends javax.swing.JFrame {
 
     ImageIcon icon = new ImageIcon("src\\main\\resources\\Images\\Logo.png"); //Icono de la aplicación
     FlatLightLaf style = new FlatLightLaf();
 
-    public ProjectView() {
+    public Project() {
         try {
             UIManager.setLookAndFeel(style);
         } catch (UnsupportedLookAndFeelException e) {
             System.out.println(e);
         }
+
+        // Create loading window
+        JFrame loadingFrame = new JFrame("Loading");
+        loadingFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        loadingFrame.setUndecorated(true); // Removes window decorations
+
+        Loading loadingPanel = new Loading();
+        loadingFrame.getContentPane().add(loadingPanel);
+        loadingFrame.pack(); // Sizes frame to fit the loading panel
+        loadingFrame.setLocationRelativeTo(null);
+        loadingFrame.setVisible(true);
+
+        try {
+            Thread.sleep(2500); // Wait for 1 second
+            loadingFrame.dispose();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Project.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        // Initialize components after loading
         initComponents();
+
     }
 
     //GETTERS & SETTERS
@@ -57,11 +81,10 @@ public class ProjectView extends javax.swing.JFrame {
         return exportItem;
     }
 
-
     public JButton getAddExpense() {
         return addExpense;
     }
-    
+
     public JPanel getjPanel2() {
         return jPanel2;
     }
@@ -113,9 +136,8 @@ public class ProjectView extends javax.swing.JFrame {
     public JLabel getjLabel3() {
         return jLabel3;
     }
-    
-    //for new expenses
 
+    //for new expenses
     public JDateChooser getExpenseDate() {
         return expenseDate;
     }
@@ -142,6 +164,10 @@ public class ProjectView extends javax.swing.JFrame {
 
     public JTable getMainTable() {
         return mainTable;
+    }
+
+    public JMenuItem getPreviewItem() {
+        return previewItem;
     }
 
     @SuppressWarnings("unchecked")
@@ -198,6 +224,9 @@ public class ProjectView extends javax.swing.JFrame {
         exportItem = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         exitProgramItem = new javax.swing.JMenuItem();
+        helpMenu1 = new javax.swing.JMenu();
+        previewItem = new javax.swing.JMenuItem();
+        previewItem1 = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         documentationItem = new javax.swing.JMenuItem();
         javadocItem = new javax.swing.JMenuItem();
@@ -245,7 +274,7 @@ public class ProjectView extends javax.swing.JFrame {
         jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.Y_AXIS));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("One spencer -test project");
+        setTitle("One spencer");
         setIconImage(icon.getImage());
         setMinimumSize(new java.awt.Dimension(960, 540));
 
@@ -446,6 +475,27 @@ public class ProjectView extends javax.swing.JFrame {
 
         menuBar.add(fileMenu);
 
+        helpMenu1.setBackground(new java.awt.Color(51, 102, 255));
+        helpMenu1.setText("Preview");
+
+        previewItem.setText("Preview export");
+        previewItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previewItemActionPerformed(evt);
+            }
+        });
+        helpMenu1.add(previewItem);
+
+        previewItem1.setText("View export file");
+        previewItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previewItem1ActionPerformed(evt);
+            }
+        });
+        helpMenu1.add(previewItem1);
+
+        menuBar.add(helpMenu1);
+
         helpMenu.setBackground(new java.awt.Color(51, 102, 255));
         helpMenu.setText("Help");
 
@@ -473,6 +523,14 @@ public class ProjectView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_addWorkBook1ActionPerformed
 
+    private void previewItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previewItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_previewItemActionPerformed
+
+    private void previewItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previewItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_previewItem1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutItem;
@@ -498,6 +556,7 @@ public class ProjectView extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler1;
     private javax.swing.JToolBar footer;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenu helpMenu1;
     public javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -527,6 +586,8 @@ public class ProjectView extends javax.swing.JFrame {
     private javax.swing.JMenuItem newProjectItem;
     private javax.swing.JMenuItem openProjectItem;
     private javax.swing.JComboBox<String> paymentMethod;
+    private javax.swing.JMenuItem previewItem;
+    private javax.swing.JMenuItem previewItem1;
     private javax.swing.JLabel programVersion;
     private javax.swing.JToolBar rightSideBar;
     // End of variables declaration//GEN-END:variables

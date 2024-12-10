@@ -30,16 +30,18 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 
 import matrodriguezpa.onespencer.model.DatabaseModel;
-import matrodriguezpa.onespencer.view.ProjectView;
+import matrodriguezpa.onespencer.view.Export;
+import matrodriguezpa.onespencer.view.Project;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 
 public class ProjectController {
 
     private final DatabaseModel model;
-    private final ProjectView view;
+    private final Project view;
 
     private String month;
     private String nombreProyecto;
@@ -48,7 +50,7 @@ public class ProjectController {
     private DefaultTableModel tableModel;
     private DefaultTreeModel treeModel;
 
-    public ProjectController(DatabaseModel model, ProjectView view) {
+    public ProjectController(DatabaseModel model, Project view) {
         this.model = model;
         this.view = view;
         initController();
@@ -59,29 +61,16 @@ public class ProjectController {
     }
 
     private void initController() {
-        // crear un nuevo proyecto
+        // Agregar las acciones de los botónes de la pantalla principal
         view.getNewProjectItem().addActionListener(e -> createProject());
-
-        // abrir un proyecto
         view.getOpenProjectItem().addActionListener(e -> openProject());
-
-        // agregar un nuevo workbook
         view.getAddWorkBook().addActionListener(e -> createProject());
-
-        // agregar un nuevo mes al proyecto
         view.getAddWorkBook1().addActionListener(e -> createMonth(nombreProyecto));
-
-        // manejar la selección de un nodo en la navegación izquierda
         view.getLeftNavigation().addTreeSelectionListener(e -> LeftNavigationValueChanged());
-
-        // agregar un gasto
         view.getAddExpense().addActionListener(e -> createExpense());
-
-        // agregar un gasto
         view.getExportItem().addActionListener(e -> ExportProject());
-
-        // agregar un gasto
         view.getExitProgramItem().addActionListener(e -> closeProgram());
+        view.getPreviewItem().addActionListener(e -> openPreview());
     }
 
     private void connectDatabase() {
@@ -93,23 +82,21 @@ public class ProjectController {
         }
     }
 
+    private void getSettings() {
+        //ConfigController
+    }
+
     private void createProjectsTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS proyectos ("
-                + "usuario TEXT NOT NULL, nombre TEXT NOT NULL,"
-                + "presupuestoMes1 REAL, idProyectoMes1 BOOLEAN,"
-                + "presupuestoMes2 REAL, idProyectoMes2 BOOLEAN,"
-                + "presupuestoMes3 REAL, idProyectoMes3 BOOLEAN,"
-                + "presupuestoMes4 REAL, idProyectoMes4 BOOLEAN,"
-                + "presupuestoMes5 REAL, idProyectoMes5 BOOLEAN,"
-                + "presupuestoMes6 REAL, idProyectoMes6 BOOLEAN,"
-                + "presupuestoMes7 REAL, idProyectoMes7 BOOLEAN,"
-                + "presupuestoMes8 REAL, idProyectoMes8 BOOLEAN,"
-                + "presupuestoMes9 REAL, idProyectoMes9 BOOLEAN,"
-                + "presupuestoMes10 REAL, idProyectoMes10 BOOLEAN,"
-                + "presupuestoMes11 REAL, idProyectoMes11 BOOLEAN,"
-                + "presupuestoMes12 REAL, idProyectoMes12 BOOLEAN);";
+        StringBuilder sqlBuilder = new StringBuilder("CREATE TABLE IF NOT EXISTS proyectos (usuario TEXT NOT NULL, nombre TEXT NOT NULL");
+
+        for (int i = 1; i <= 12; i++) {
+            sqlBuilder.append(String.format(", presupuestoMes%d REAL, idProyectoMes%d BOOLEAN", i, i));
+        }
+
+        sqlBuilder.append(");");
+
         try {
-            model.executeUpdate(sql);
+            model.executeUpdate(sqlBuilder.toString());
             JOptionPane.showMessageDialog(view, "Tabla de proyectos creada.");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(view, e.getMessage());
@@ -170,7 +157,7 @@ public class ProjectController {
     }
 
     private void createProject() {
-        int result = JOptionPane.showConfirmDialog(view, view.getjPanel2(), "Nuevo Proyecto", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(view, view.getjPanel2(), "New Proyect", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (!"---".equals(view.getjLabel3().getText())) { //si en la navegación esta abierta tomar ese numero de cuenta
             view.getjTextField2().setText(view.getjLabel3().getText());
@@ -519,5 +506,24 @@ public class ProjectController {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+    }
+
+    private void openPreview() {
+        // Create the main preview window
+        JFrame previewFrame = new JFrame("Export Preview");
+        previewFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        previewFrame.setSize(600, 400);
+
+        // Create the export panel within the preview window
+        Export exportWindow = new Export();
+
+        // Add the export panel to the preview frame's content pane
+        previewFrame.getContentPane().add(exportWindow);
+
+        // Center the window on the screen
+        previewFrame.setLocationRelativeTo(null);
+
+        // Make the window visible
+        previewFrame.setVisible(true);
     }
 }
