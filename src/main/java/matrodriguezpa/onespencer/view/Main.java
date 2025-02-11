@@ -17,12 +17,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 
-public class Project extends javax.swing.JFrame {
+public class Main extends javax.swing.JFrame {
 
     ImageIcon icon = new ImageIcon("src\\main\\resources\\Images\\Logo.png"); //Icono de la aplicación
     FlatLightLaf style = new FlatLightLaf();
 
-    public Project() {
+    public Main() {
         try {
             UIManager.setLookAndFeel(style);
         } catch (UnsupportedLookAndFeelException e) {
@@ -44,7 +44,7 @@ public class Project extends javax.swing.JFrame {
             Thread.sleep(2500); // Wait for 1 second
             loadingFrame.dispose();
         } catch (InterruptedException ex) {
-            Logger.getLogger(Project.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         // Initialize components after loading
@@ -85,28 +85,28 @@ public class Project extends javax.swing.JFrame {
         return addExpense;
     }
 
-    public JPanel getjPanel2() {
-        return jPanel2;
+    public JPanel getNewProjectJPanel() {
+        return NewProject;
     }
 
     public void setjPanel2(JPanel jPanel2) {
-        this.jPanel2 = jPanel2;
+        this.NewProject = jPanel2;
     }
 
-    public Object getjPanel4() {
-        return jPanel4;
+    public Object getCreateNewMonth() {
+        return CreateNewMonth;
     }
 
     public void setjTextField1(JTextField jTextField1) {
-        this.jTextField1 = jTextField1;
+        this.newProjectName = jTextField1;
     }
 
     public JTextField getjTextField1() {
-        return jTextField1;
+        return newProjectName;
     }
 
     public JTextField getjTextField2() {
-        return jTextField2;
+        return newProjectYear;
     }
 
     public JComboBox getjComboBox1() {
@@ -121,8 +121,8 @@ public class Project extends javax.swing.JFrame {
         return jPanel5;
     }
 
-    public JPanel getjPanel6() {
-        return jPanel6;
+    public JPanel getProyectListJpanel() {
+        return proyectList;
     }
 
     public JButton getAddWorkBook() {
@@ -174,16 +174,16 @@ public class Project extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
+        NewProject = new javax.swing.JPanel();
         addWorkbookLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        newProjectName = new javax.swing.JTextField();
         addWorkbookLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        newProjectYear = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
+        CreateNewMonth = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
+        proyectList = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
@@ -232,35 +232,35 @@ public class Project extends javax.swing.JFrame {
         javadocItem = new javax.swing.JMenuItem();
         aboutItem = new javax.swing.JMenuItem();
 
-        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
+        NewProject.setLayout(new javax.swing.BoxLayout(NewProject, javax.swing.BoxLayout.Y_AXIS));
 
-        addWorkbookLabel1.setText("Nombre del proyecto *");
-        jPanel2.add(addWorkbookLabel1);
-        jPanel2.add(jTextField1);
+        addWorkbookLabel1.setText("Name*");
+        NewProject.add(addWorkbookLabel1);
+        NewProject.add(newProjectName);
 
-        addWorkbookLabel2.setText("No. de cuenta");
-        jPanel2.add(addWorkbookLabel2);
-        jPanel2.add(jTextField2);
+        addWorkbookLabel2.setText("Year");
+        NewProject.add(addWorkbookLabel2);
+        NewProject.add(newProjectYear);
 
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.Y_AXIS));
 
         jLabel1.setText("Selecionar proyectos");
         jPanel3.add(jLabel1);
 
-        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
+        CreateNewMonth.setLayout(new javax.swing.BoxLayout(CreateNewMonth, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel4.setText("Proyecto");
-        jPanel4.add(jLabel4);
+        jLabel4.setText("Año");
+        CreateNewMonth.add(jLabel4);
 
-        jPanel6.setMinimumSize(new java.awt.Dimension(50, 50));
-        jPanel6.setLayout(new javax.swing.BoxLayout(jPanel6, javax.swing.BoxLayout.Y_AXIS));
-        jPanel4.add(jPanel6);
+        proyectList.setMinimumSize(new java.awt.Dimension(50, 50));
+        proyectList.setLayout(new javax.swing.BoxLayout(proyectList, javax.swing.BoxLayout.Y_AXIS));
+        CreateNewMonth.add(proyectList);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel2.setText("Selecionar mes");
         jLabel2.setToolTipText("");
         jLabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jPanel4.add(jLabel2);
+        CreateNewMonth.add(jLabel2);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
         jComboBox1.setMaximumSize(new java.awt.Dimension(100, 30));
@@ -269,7 +269,7 @@ public class Project extends javax.swing.JFrame {
                 jComboBox1ActionPerformed(evt);
             }
         });
-        jPanel4.add(jComboBox1);
+        CreateNewMonth.add(jComboBox1);
 
         jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.Y_AXIS));
 
@@ -533,6 +533,8 @@ public class Project extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel CreateNewMonth;
+    private javax.swing.JPanel NewProject;
     private javax.swing.JMenuItem aboutItem;
     private javax.swing.JButton addExpense;
     private javax.swing.JButton addWorkBook;
@@ -563,16 +565,11 @@ public class Project extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JMenuItem javadocItem;
     private javax.swing.JTree leftNavigation;
     private javax.swing.JScrollPane leftScroll;
@@ -584,11 +581,14 @@ public class Project extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JTextField monthlyBudget;
     private javax.swing.JMenuItem newProjectItem;
+    private javax.swing.JTextField newProjectName;
+    private javax.swing.JTextField newProjectYear;
     private javax.swing.JMenuItem openProjectItem;
     private javax.swing.JComboBox<String> paymentMethod;
     private javax.swing.JMenuItem previewItem;
     private javax.swing.JMenuItem previewItem1;
     private javax.swing.JLabel programVersion;
+    private javax.swing.JPanel proyectList;
     private javax.swing.JToolBar rightSideBar;
     // End of variables declaration//GEN-END:variables
 

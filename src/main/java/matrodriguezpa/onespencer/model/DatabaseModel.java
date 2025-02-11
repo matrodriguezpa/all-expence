@@ -21,7 +21,7 @@ public class DatabaseModel {
         String userHome = System.getProperty("user.home");
 
         // Construct the path to the OneSpencer directory within Documents
-        Path documentsPath = Paths.get(userHome, "Documents", "OneSpencer", "baseDatos.db");
+        Path documentsPath = Paths.get(userHome, "Documents", "OneSpencer", "Database.db");
 
         // Check if the path exists (optional)
         if (!documentsPath.toFile().exists()) {
@@ -57,19 +57,20 @@ public class DatabaseModel {
         stmt.execute();
     }
 
-    public void executeUpdate2(String sql, String usuario, String nombreProyecto) throws SQLException {
-        PreparedStatement stmt = connect.prepareStatement(sql); // Establecer los valores para el usuario y el nombre del proyecto
-        stmt.setString(1, usuario);
-        stmt.setString(2, nombreProyecto);
-        stmt.executeUpdate(); // Ejecutar la inserción
+    public void executeUpdateProjectNameAndYear(String sql, String name, String year) throws SQLException {
+        PreparedStatement stmt = connect.prepareStatement(sql);
+        stmt.setString(1, name);
+        stmt.setString(2, year);
+        stmt.executeUpdate(); 
     }
 
-    public void executeUpdate3(String sql, String presupuesto) throws SQLException {
-        PreparedStatement stmt = connect.prepareStatement(sql); // Establecer los valores para el usuario y el nombre del proyecto
-        stmt.setString(1, presupuesto);
-        stmt.setString(2, "TRUE");
-        stmt.executeUpdate(); // Ejecutar la inserción
+    public void executeUpdateProjectMonthBudget(String sql, String newProjectMonthBudget, String projectName) throws SQLException {
+    try (PreparedStatement stmt = connect.prepareStatement(sql)) {
+        stmt.setString(1, newProjectMonthBudget);
+        stmt.setString(2, projectName);
+        stmt.executeUpdate();
     }
+}
 
     public ResultSet executeQuery(String sql, Object... params) throws SQLException {
         PreparedStatement stmt = connect().prepareStatement(sql);
