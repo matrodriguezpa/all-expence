@@ -258,12 +258,13 @@ public class ProjectController {
             }
 
             createProjectMonthTable(this.projectName, Integer.parseInt(projectYear), month);//createMonthTable(name,projectYear, String.valueOf(proyectMonth));
-            insertNewMonth("500", month, projectName+"_"+projectYear);// Insertar el nuevo mes
+            insertNewMonth("500", month, projectName);// Insertar el nuevo mes
             //updateNavigationTree();
-            
+
             view.getProyectListJpanel().removeAll();
-            
+
         }
+        updateNavigationTree();
     }
 
     private void createExpense() {
@@ -301,7 +302,7 @@ public class ProjectController {
             resul = model.executeQuery("SELECT * FROM projects WHERE name = '" + projectName + "'");
 
             // Crear el nodo raíz del árbol
-            DefaultMutableTreeNode root = new DefaultMutableTreeNode("Projecto: " + projectName);
+            DefaultMutableTreeNode root = new DefaultMutableTreeNode(projectName);
 
             // Recorrer todos los proyectos
             while (resul.next()) {
@@ -345,30 +346,6 @@ public class ProjectController {
         }
     }
 
-    private void updateMainTable() {
-        tableModel = (DefaultTableModel) view.getMainTable().getModel();
-        tableModel.setRowCount(0);
-        ResultSet resul;
-        try {
-            String sql = "SELECT * FROM " + projectName + "_" + proyectMonth;
-            System.out.println("Consulta SQL: " + sql);
-            resul = model.executeQuery(sql);
-            while (resul.next()) {
-                tableModel.addRow(new Object[]{
-                    resul.getString("date"),
-                    resul.getString("company"),
-                    resul.getDouble("amount"),
-                    resul.getString("expense"),
-                    resul.getString("matrix"),
-                    resul.getString("payment")
-                });
-
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-    }
-
     //si el nodo seleccionado en la navegación cambia, actualizar la tabla principal
     private void LeftNavigationValueChanged() {
         // Obtener el nodo seleccionado del JTree
@@ -384,12 +361,39 @@ public class ProjectController {
                 // Asignar el valor del mes correspondiente al nodo seleccionado
                 this.proyectMonth = (String) selectedNode.getUserObject(); // Asegúrate de que el objeto sea del tipo adecuado
                 DefaultMutableTreeNode parent = (DefaultMutableTreeNode) selectedNode.getParent();
-                this.projectName = (String) parent.getUserObject(); // Asegúrate de que el objeto sea del tipo adecuado
+                this.projectYear = (String) parent.getUserObject(); // Asegúrate de que el objeto sea del tipo adecuado
+                parent = (DefaultMutableTreeNode) parent.getParent();
+                this.projectName = (String) parent.getUserObject();
+
                 System.out.println(this.proyectMonth);
+                System.out.println(this.projectYear);
                 System.out.println(this.projectName);
-                System.out.println("Loagin Table: " + projectName + "_" + proyectMonth);
                 updateMainTable();
             }
+        }
+    }
+
+    private void updateMainTable() {
+        tableModel = (DefaultTableModel) view.getMainTable().getModel();
+        tableModel.setRowCount(0);
+        ResultSet resul;
+        try {
+            String sql = "SELECT * FROM " + projectName + "_" + projectYear + "_" + proyectMonth;
+            System.out.println("Consulta SQL: " + sql);
+            resul = model.executeQuery(sql);
+            
+            while (resul.next()) {
+                tableModel.addRow(new Object[]{
+                    resul.getString("date"),
+                    resul.getString("company"),
+                    resul.getDouble("amount"),
+                    resul.getString("expense"),
+                    resul.getString("matrix"),
+                    resul.getString("payment"),
+                });
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 
@@ -426,9 +430,9 @@ public class ProjectController {
                     break;
                 }
             }
-            
+
             view.getjLabel3().setText(this.projectName);
-            
+
         }
     }
 
