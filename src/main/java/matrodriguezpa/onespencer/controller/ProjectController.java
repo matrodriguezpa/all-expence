@@ -52,6 +52,7 @@ public class ProjectController {
 
     private DefaultTableModel tableModel;
     private DefaultTreeModel treeModel;
+    ButtonGroup buttonGroup = new ButtonGroup();
 
     public ProjectController(DatabaseModel model, Main view) {
         this.model = model;
@@ -75,6 +76,15 @@ public class ProjectController {
         view.getExportItem().addActionListener(e -> ExportProject());
         view.getExitProgramItem().addActionListener(e -> closeProgram());
         view.getPreviewItem().addActionListener(e -> openPreview());
+        view.getAddCompanyButton().addActionListener(e -> expeseAddButton(0));
+        view.getAddExpenseButton().addActionListener(e -> expeseAddButton(1));
+        view.getAddMatrixButton().addActionListener(e -> expeseAddButton(2));
+        view.getAddPaymentButton().addActionListener(e -> expeseAddButton(3));
+        
+        view.getAutoBudgetCheckBox().addActionListener(e -> monthlybudget());
+        
+        
+        updateNavigationTree();
     }
 
     /*starting*/
@@ -164,10 +174,6 @@ public class ProjectController {
     private void createProject() {
         int result = JOptionPane.showConfirmDialog(view, view.getNewProjectJPanel(), "New Proyect", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-        if (!"---".equals(view.getjLabel3().getText())) { //si en la navegación esta abierta tomar ese numero de cuenta
-            view.getjTextField2().setText(view.getjLabel3().getText());//convierte el texto de  newProjectYear en el de el numero de cuenta
-        }
-
         if (result == JOptionPane.OK_OPTION) {
             this.projectName = view.getjTextField1().getText();
             this.projectYear = view.getjTextField2().getText();
@@ -202,67 +208,67 @@ public class ProjectController {
             Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        ButtonGroup buttonGroup = new ButtonGroup();
+        view.getProyectListJpanel().removeAll(); // Clear existing components before adding new ones
+
         try {
             // Crear un botón de opción por cada name encontrado
-            Map<String, JPanel> projectPanels = new HashMap<>();
 
             while (resul.next()) {
-                this.projectName = resul.getString(1);
-                this.projectYear = resul.getString(2);
+                String projectNamelist = resul.getString(1);
+                String projectYearlist = resul.getString(2);
 
-                // Check if the project panel already exists
-                JPanel panelx = projectPanels.get(projectName);
-                if (panelx == null) {
-                    // Create new panel and label for the project
-                    panelx = new JPanel();
-                    JLabel label = new JLabel(projectName);
-                    panelx.add(label);
-                    // Add the panel to the main container and the map
-                    view.getProyectListJpanel().add(panelx);
-                    projectPanels.put(projectName, panelx);
-                }
-                // Add the year as a radio button to the project's panel
-                JRadioButton radioButton = new JRadioButton(this.projectYear);
-                panelx.add(radioButton);
+                // Create a new panel for each project-year entry
+                JPanel panelButtonList = new JPanel();
+
+                JLabel label = new JLabel(projectNamelist);
+                JRadioButton radioButton = new JRadioButton(projectYearlist);
+
+                buttonGroup.add(radioButton);
+                panelButtonList.add(label);
+                panelButtonList.add(radioButton);
+
+                // Add directly to view's panel
+                view.getProyectListJpanel().add(panelButtonList);
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // Agrupar los radio buttons para que sea un grupo de selección
-        ButtonGroup buttonGroup = new ButtonGroup();
-        for (Component comp : view.getProyectListJpanel().getComponents()) {
-            if (comp instanceof JRadioButton) {
-                buttonGroup.add((JRadioButton) comp);
-            }
-        }
-
         // Mostrar el diálogo para crear el mes
         int result = JOptionPane.showConfirmDialog(view, view.getCreateNewMonth(), "Create Month", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-        int month = 0;
         if (result == JOptionPane.OK_OPTION) {
             // Obtener el mes seleccionado
-            month = (view.getjComboBox1().getSelectedIndex() + 1);
+            int month = view.getjComboBox1().getSelectedIndex() + 1;
 
-            // Obtener el nombre del name seleccionado
+            // Buscar en cada sub-panel la etiqueta y el botón de opción seleccionado
             for (Component comp : view.getProyectListJpanel().getComponents()) {
-                if (comp instanceof JLabel) {
-                    this.projectName = ((JRadioButton) comp).getText();
-                    break;
-                }
-                if (comp instanceof JRadioButton && ((JRadioButton) comp).isSelected()) {
-                    this.projectYear = ((JRadioButton) comp).getText();
-                    break;
+                if (comp instanceof JPanel panel) {
+                    String labelText = null;
+                    String selectedRadioText = null;
+
+                    for (Component sub : panel.getComponents()) {
+                        if (sub instanceof JLabel label) {
+                            labelText = label.getText();
+                        } else if (sub instanceof JRadioButton radio && radio.isSelected()) {
+                            selectedRadioText = radio.getText();
+                        }
+                    }
+
+                    if (labelText != null && selectedRadioText != null) {
+                        this.projectName = labelText;
+                        this.projectYear = selectedRadioText;
+                        break;
+                    }
                 }
             }
 
-            createProjectMonthTable(this.projectName, Integer.parseInt(projectYear), month);//createMonthTable(name,projectYear, String.valueOf(proyectMonth));
-            insertNewMonth("500", month, projectName);// Insertar el nuevo mes
-            //updateNavigationTree();
-
-            view.getProyectListJpanel().removeAll();
-
+            if (projectName != null && projectYear != null) {
+                createProjectMonthTable(projectName, Integer.parseInt(projectYear), month);
+                insertNewMonth("500", month, projectName);
+            }
         }
         updateNavigationTree();
     }
@@ -272,22 +278,25 @@ public class ProjectController {
             String sql = "INSERT INTO " + projectName + "_" + projectYear + "_" + proyectMonth + " (date, company, amount, expense, matrix, payment) VALUES (?, ?, ?, ?, ?, ?)";
 
             // Establecer los valores para cada columna (ajustar según los tipos de datos de las columnas)
-            String day = String.valueOf(view.getExpenseDate().getDate().getDay());
-            String month = String.valueOf(view.getExpenseDate().getDate().getMonth());
-            String year = String.valueOf(view.getExpenseDate().getDate().getYear());
-
-            String date = day + "-" + month + "-" + year;
-            String razonSocial = view.getCompanyName().getText(); // RazonSocial
-            Double Monto = Double.valueOf(view.getAmount().getText()); // Monto
+            String Day = String.valueOf(view.getExpenseDate().getValue());
+            System.out.println(view.getExpenseDate().getValue());
+            
             int index = view.getExpense().getSelectedIndex();
-            String GGasto = view.getExpense().getItemAt(index); // GGasto
-            index = view.getMatrix().getSelectedIndex(); // GGasto
-            String Matriz = view.getMatrix().getItemAt(index); // GGasto
-            index = view.getPaymentMethod().getSelectedIndex();
-            String FPago = view.getPaymentMethod().getItemAt(index); // GGasto
+            String Company = view.getCompany().getItemAt(index);  // Razon social
+
+            Double Amount = Double.valueOf(view.getAmount().getText()); // Monto
+            
+            index = view.getExpense().getSelectedIndex();
+            String Expense = view.getExpense().getItemAt(index); // Gasto
+            
+            index = view.getMatrix().getSelectedIndex();
+            String Matrix = view.getMatrix().getItemAt(index); // Matriz
+            
+            index = view.getPayment().getSelectedIndex();
+            String Payment = view.getPayment().getItemAt(index); // Forma de pago
 
             // Ejecutar la consulta
-            model.executeUpdate4(sql, date, razonSocial, Monto, GGasto, Matriz, FPago);
+            model.executeUpdate4(sql, Day, Company, Amount, Expense, Matrix, Payment);
             updateMainTable();
             JOptionPane.showMessageDialog(null, "Inserción exitosa.");
         } catch (HeadlessException | NumberFormatException | SQLException e) {
@@ -295,6 +304,39 @@ public class ProjectController {
         }
     }
 
+    private void expeseAddButton(int index) {
+
+        int result = JOptionPane.showConfirmDialog(
+                null,
+                view.getjPanel12(),
+                "Enter Expense",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+
+        view.getAddExpensedata().setSelectedIndex(index);
+       
+
+        if (result == JOptionPane.OK_OPTION) {
+            String resultado = view.getAddExpenseDataJText().getText();
+            switch (index) {
+                case 0 -> {
+                    view.getCompany().addItem(resultado);
+                }
+                case 1 -> {
+                    view.getExpense().addItem(resultado);
+                }
+                case 2 -> {
+                    view.getMatrix().addItem(resultado);
+                }
+                case 3 -> {
+                    view.getPayment().addItem(resultado);
+                }
+            }
+        }
+    }
+
+    
     /*update view*/
     private void updateNavigationTree() {
         ResultSet resul;
@@ -346,6 +388,7 @@ public class ProjectController {
         }
     }
 
+
     //si el nodo seleccionado en la navegación cambia, actualizar la tabla principal
     private void LeftNavigationValueChanged() {
         // Obtener el nodo seleccionado del JTree
@@ -381,7 +424,7 @@ public class ProjectController {
             String sql = "SELECT * FROM " + projectName + "_" + projectYear + "_" + proyectMonth;
             System.out.println("Consulta SQL: " + sql);
             resul = model.executeQuery(sql);
-            
+
             while (resul.next()) {
                 tableModel.addRow(new Object[]{
                     resul.getString("date"),
@@ -389,8 +432,7 @@ public class ProjectController {
                     resul.getDouble("amount"),
                     resul.getString("expense"),
                     resul.getString("matrix"),
-                    resul.getString("payment"),
-                });
+                    resul.getString("payment"),});
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -430,10 +472,8 @@ public class ProjectController {
                     break;
                 }
             }
-
-            view.getjLabel3().setText(this.projectName);
-
         }
+
     }
 
     //method to get unique users
@@ -557,5 +597,9 @@ public class ProjectController {
             // Exit the application
             System.exit(0);
         }
+    }
+
+    private void monthlybudget() {
+        
     }
 }
