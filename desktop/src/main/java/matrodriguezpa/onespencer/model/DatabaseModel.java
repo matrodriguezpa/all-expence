@@ -1,6 +1,10 @@
 package matrodriguezpa.onespencer.model;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -8,9 +12,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class DatabaseModel {
-
+/*
+    private final Properties properties;
+    private final String configFilePath;
+*/
     // Construct the URL to the SQLite database in the user's Documents directory
     private final String url = constructDatabaseUrl();
     private Connection connect;
@@ -90,4 +98,39 @@ public class DatabaseModel {
         st.setString(6, FPago);
         st.executeUpdate();
     }
+    
+    //CONFIGURACION
+    // Constructor that loads the configuration file
+    /*
+    public ConfigModel(String configFilePath) throws IOException {
+        this.configFilePath = configFilePath;
+        properties = new Properties();
+        loadProperties();
+    }
+
+    // Load properties from the configuration file
+    private void loadProperties() throws IOException {
+        try (InputStream input = new FileInputStream(configFilePath)) {
+            properties.load(input);
+        }
+    }
+
+    // Get a property value by key
+    public String getProperty(String key) {
+        return properties.getProperty(key);
+    }
+
+    // Set a property value and save to file
+    public void setProperty(String key, String value) throws IOException {
+        properties.setProperty(key, value);
+        saveProperties();
+    }
+
+    // Save properties back to the configuration file
+    private void saveProperties() throws IOException {
+        try (OutputStream output = new FileOutputStream(configFilePath)) {
+            properties.store(output, null);
+        }
+    }
+*/
 }
