@@ -1,10 +1,10 @@
-package matrodriguezpa.onespencer;
+package matrodriguezpa.allexpence;
 
-import matrodriguezpa.onespencer.controller.ProjectController;
-import matrodriguezpa.onespencer.model.DatabaseModel;
-import matrodriguezpa.onespencer.view.Main;
+import matrodriguezpa.allexpence.controller.ProjectController;
+import matrodriguezpa.allexpence.model.DatabaseModel;
+import matrodriguezpa.allexpence.view.Main;
 
-public class OneSpencer {
+public class AllExpence {
 
     public static void main(String[] args) {
         DatabaseModel model = new DatabaseModel();

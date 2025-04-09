@@ -1,4 +1,4 @@
-package matrodriguezpa.onespencer.controller;
+package matrodriguezpa.allexpence.controller;
 
 import java.awt.Component;
 import java.awt.HeadlessException;
@@ -35,9 +35,9 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import matrodriguezpa.onespencer.model.DatabaseModel;
-import matrodriguezpa.onespencer.view.Export;
-import matrodriguezpa.onespencer.view.Main;
+import matrodriguezpa.allexpence.model.DatabaseModel;
+import matrodriguezpa.allexpence.view.Export;
+import matrodriguezpa.allexpence.view.Main;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -81,7 +81,7 @@ public class ProjectController {
         view.getAddMatrixButton().addActionListener(e -> expeseAddButton(2));
         view.getAddPaymentButton().addActionListener(e -> expeseAddButton(3));
         
-        view.getAutoBudgetCheckBox().addActionListener(e -> monthlybudget());
+        //view.getAutoBudgetCheckBox().addActionListener(e -> monthlybudget());
         
         
         updateNavigationTree();

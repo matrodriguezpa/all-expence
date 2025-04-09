@@ -1,16 +1,14 @@
-package matrodriguezpa.onespencer.view;
+package matrodriguezpa.allexpence.view;
 
 import javax.swing.ImageIcon; // Para cargar el icono de la aplicaciòn
 import javax.swing.UIManager; // Para mostrar el icono
 import javax.swing.UnsupportedLookAndFeelException; // Expepsiones el cargar los estilos
 import com.formdev.flatlaf.FlatLightLaf; //Generar estilos de la aplicaciòn
-import com.toedter.calendar.JDateChooser;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -746,5 +744,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel proyectList;
     private javax.swing.JToolBar rightSideBar;
     // End of variables declaration//GEN-END:variables
+
+    public Object getAutoBudgetCheckBox() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 }

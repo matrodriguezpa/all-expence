@@ -1,5 +1,5 @@
 
-package matrodriguezpa.onespencer.view;
+package matrodriguezpa.allexpence.view;
 
 import java.awt.Image;
 import javax.swing.ImageIcon;
