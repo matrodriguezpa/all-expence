@@ -28,8 +28,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -52,7 +50,6 @@ public class ProjectController {
 
     private DefaultTableModel tableModel;
     private DefaultTreeModel treeModel;
-    ButtonGroup buttonGroup = new ButtonGroup();
 
     public ProjectController(project model, Main view) {
         this.model = model;
@@ -79,10 +76,7 @@ public class ProjectController {
         view.getAddCompanyButton().addActionListener(e -> expeseAddButton(0));
         view.getAddExpenseButton().addActionListener(e -> expeseAddButton(1));
         view.getAddMatrixButton().addActionListener(e -> expeseAddButton(2));
-        view.getAddPaymentButton().addActionListener(e -> expeseAddButton(3));
-        
-        //view.getAutoBudgetCheckBox().addActionListener(e -> monthlybudget());
-        
+        view.getAddPaymentButton().addActionListener(e -> expeseAddButton(3));        
         
         updateNavigationTree();
     }
@@ -106,14 +100,14 @@ public class ProjectController {
         StringBuilder sqlBuilder = new StringBuilder("CREATE TABLE IF NOT EXISTS projects (name TEXT NOT NULL, year TEXT NOT NULL");
 
         for (int i = 1; i <= 12; i++) {
-            sqlBuilder.append(String.format(", budget_%d REAL", i));
+            sqlBuilder.append(String.format(", month_%d INTEGER", i));
         }
 
         sqlBuilder.append(");");
 
         try {
             model.executeUpdate(sqlBuilder.toString());
-            JOptionPane.showMessageDialog(view, "Project table created.");
+            JOptionPane.showMessageDialog(view, "List of Projects table created.");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(view, e.getMessage());
         }
@@ -132,8 +126,8 @@ public class ProjectController {
                 + "payment VARCHAR(255));";
 
         try {
-            model.executeUpdate(sql);  // Assumes model handles statement execution
-            JOptionPane.showMessageDialog(view, "Project's month table: '" + monthTableName + "' created.");
+            model.executeUpdate(sql); 
+            JOptionPane.showMessageDialog(view, "Month in a Project table: '" + monthTableName + "' created.");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(view, "Error creando la tabla: " + e.getMessage());
         }
@@ -151,20 +145,17 @@ public class ProjectController {
         }
     }//insert a new project on the project list table
 
-    private void insertNewMonth(String newProjectMonthBudget, int monthNumber, String projectName) {
+    private void insertNewMonth(int monthNumber, String projectName) {
         if (monthNumber < 1 || monthNumber > 12) {
             JOptionPane.showMessageDialog(view, "Invalid month number.");
             return;
         }
-        if (newProjectMonthBudget == null || newProjectMonthBudget.isEmpty()) {
-            JOptionPane.showMessageDialog(view, "Budget cannot be empty.");
-            return;
-        }
-        String budgetColumn = "budget_" + monthNumber;
-        String sql = "UPDATE projects SET " + budgetColumn + " = ? WHERE name = ?";
+        
+        String monthColumn = "month_" + monthNumber;
+        String sql = "UPDATE projects SET " + monthColumn + " = ? WHERE name = ?";
 
         try {
-            model.executeUpdateProjectMonthBudget(sql, newProjectMonthBudget, projectName);
+            model.executeUpdateProjectMonthBudget(sql, "1", projectName);
             JOptionPane.showMessageDialog(view, "Month " + monthNumber + " added for the project " + projectName + ".");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(view, "Error adding month to the project: " + e.getMessage());
@@ -267,7 +258,7 @@ public class ProjectController {
 
             if (projectName != null && projectYear != null) {
                 createProjectMonthTable(projectName, Integer.parseInt(projectYear), month);
-                insertNewMonth("500", month, projectName);
+                insertNewMonth(month, projectName);
             }
         }
         updateNavigationTree();
@@ -370,7 +361,7 @@ public class ProjectController {
 
                 // seleccionar de cada resultado donde idProyectoMesN no sea null
                 for (int i = 1; i <= 12; i++) {
-                    String columnIdProyectoMes = "budget_" + i; // Nombre de la columna
+                    String columnIdProyectoMes = "month_" + i; // Nombre de la columna
                     if (resul.getString(columnIdProyectoMes) != null) {
                         String monthName = String.valueOf(i);
                         DefaultMutableTreeNode monthNode = new DefaultMutableTreeNode(monthName);
@@ -614,10 +605,6 @@ public class ProjectController {
             // Exit the application
             System.exit(0);
         }
-    }
-
-    private void monthlybudget() {
-        
     }
     
     /*

@@ -10,10 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class project {
-/*
+
+    /*
     private final Properties properties;
     private final String configFilePath;
-*/
+     */
     // Construct the URL to the SQLite database in the user's Documents directory
     private final String url = constructDatabaseUrl();
     private Connection connect;
@@ -64,16 +65,16 @@ public class project {
         PreparedStatement stmt = connect.prepareStatement(sql);
         stmt.setString(1, name);
         stmt.setString(2, year);
-        stmt.executeUpdate(); 
-    }
-
-    public void executeUpdateProjectMonthBudget(String sql, String newProjectMonthBudget, String projectName) throws SQLException {
-    try (PreparedStatement stmt = connect.prepareStatement(sql)) {
-        stmt.setString(1, newProjectMonthBudget);
-        stmt.setString(2, projectName);
         stmt.executeUpdate();
     }
-}
+
+    public void executeUpdateProjectMonthBudget(String sql,String active, String projectName) throws SQLException {
+        try (PreparedStatement stmt = connect.prepareStatement(sql)) {
+        stmt.setString(1, active);
+        stmt.setString(2, projectName);
+            stmt.executeUpdate();
+        }
+    }
 
     public ResultSet executeQuery(String sql, Object... params) throws SQLException {
         PreparedStatement stmt = connect().prepareStatement(sql);
@@ -93,7 +94,7 @@ public class project {
         st.setString(6, FPago);
         st.executeUpdate();
     }
-    
+
     //CONFIGURACION
     // Constructor that loads the configuration file
     /*
@@ -127,5 +128,5 @@ public class project {
             properties.store(output, null);
         }
     }
-*/
+     */
 }

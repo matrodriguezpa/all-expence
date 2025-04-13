@@ -269,10 +269,6 @@ public class Main extends javax.swing.JFrame {
         addYearWorkbook = new javax.swing.JToolBar();
         addWorkBook = new javax.swing.JButton();
         addWorkBook1 = new javax.swing.JButton();
-        autoMonthlyBoudget = new javax.swing.JToolBar();
-        autoBudgetLabel = new javax.swing.JLabel();
-        autoBudgetCheckBox = new javax.swing.JCheckBox();
-        monthlyBudget = new javax.swing.JTextField();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         newProjectItem = new javax.swing.JMenuItem();
@@ -562,25 +558,6 @@ public class Main extends javax.swing.JFrame {
         });
         addYearWorkbook.add(addWorkBook1);
 
-        autoMonthlyBoudget.setRollover(true);
-        autoMonthlyBoudget.setMaximumSize(new java.awt.Dimension(200, 30));
-        autoMonthlyBoudget.setMinimumSize(new java.awt.Dimension(200, 30));
-        autoMonthlyBoudget.setPreferredSize(new java.awt.Dimension(200, 30));
-
-        autoBudgetLabel.setText("Auto Monthly budget");
-        autoMonthlyBoudget.add(autoBudgetLabel);
-
-        autoBudgetCheckBox.setSelected(true);
-        autoBudgetCheckBox.setFocusable(false);
-        autoBudgetCheckBox.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        autoBudgetCheckBox.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        autoMonthlyBoudget.add(autoBudgetCheckBox);
-
-        monthlyBudget.setMaximumSize(new java.awt.Dimension(80, 30));
-        monthlyBudget.setMinimumSize(new java.awt.Dimension(80, 26));
-        monthlyBudget.setPreferredSize(new java.awt.Dimension(80, 10));
-        autoMonthlyBoudget.add(monthlyBudget);
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -588,17 +565,13 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(addYearWorkbook, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addComponent(autoMonthlyBoudget, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addGap(0, 255, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(addYearWorkbook, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(autoMonthlyBoudget, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(addYearWorkbook, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         main.add(jPanel1, java.awt.BorderLayout.PAGE_START);
@@ -707,9 +680,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel addWorkbookLabel2;
     private javax.swing.JToolBar addYearWorkbook;
     private javax.swing.JTextField amount;
-    private javax.swing.JCheckBox autoBudgetCheckBox;
-    private javax.swing.JLabel autoBudgetLabel;
-    private javax.swing.JToolBar autoMonthlyBoudget;
     private javax.swing.JToolBar bottomBar;
     private javax.swing.JMenuItem closeProjectItem;
     private javax.swing.JComboBox<String> company;
@@ -751,7 +721,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane mainTableScroll;
     private javax.swing.JComboBox<String> matrix;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JTextField monthlyBudget;
     private javax.swing.JMenuItem newProjectItem;
     private javax.swing.JTextField newProjectName;
     private javax.swing.JTextField newProjectYear;
