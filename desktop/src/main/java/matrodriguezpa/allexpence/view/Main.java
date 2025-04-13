@@ -127,6 +127,13 @@ public class Main extends javax.swing.JFrame {
         return addWorkBook1;
     }
 
+    public JSpinner getExpenseDate2() {
+        return expenseDate2;
+    }
+    
+    public JSpinner getExpenseDate1() {
+        return expenseDate1;
+    }
 
     //for new expenses
     public JSpinner getExpenseDate() {
@@ -231,7 +238,8 @@ public class Main extends javax.swing.JFrame {
         addExpenseDataJText = new javax.swing.JTextField();
         rightSideBar = new javax.swing.JToolBar();
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        expenseDate2 = new javax.swing.JSpinner();
+        expenseDate1 = new javax.swing.JSpinner();
         expenseDate = new javax.swing.JSpinner();
         jPanel8 = new javax.swing.JPanel();
         company = new javax.swing.JComboBox<>();
@@ -362,23 +370,31 @@ public class Main extends javax.swing.JFrame {
         rightSideBar.setFloatable(true);
         rightSideBar.setOrientation(javax.swing.SwingConstants.VERTICAL);
         rightSideBar.setRollover(true);
-        rightSideBar.setMaximumSize(new java.awt.Dimension(200, 200));
-        rightSideBar.setMinimumSize(new java.awt.Dimension(200, 200));
-        rightSideBar.setPreferredSize(new java.awt.Dimension(200, 200));
+        rightSideBar.setMaximumSize(new java.awt.Dimension(220, 200));
+        rightSideBar.setMinimumSize(new java.awt.Dimension(220, 200));
+        rightSideBar.setPreferredSize(new java.awt.Dimension(220, 200));
 
-        jPanel2.setMaximumSize(new java.awt.Dimension(140, 30));
-        jPanel2.setMinimumSize(new java.awt.Dimension(140, 30));
+        jPanel2.setMaximumSize(new java.awt.Dimension(170, 30));
+        jPanel2.setMinimumSize(new java.awt.Dimension(170, 30));
+        jPanel2.setPreferredSize(new java.awt.Dimension(170, 30));
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel3.setBackground(java.awt.Color.white);
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("3000/09/");
-        jLabel3.setMaximumSize(new java.awt.Dimension(100, 30));
-        jPanel2.add(jLabel3);
+        expenseDate2.setModel(new javax.swing.SpinnerNumberModel(2025, 0, 3000, 1));
+        expenseDate2.setMaximumSize(new java.awt.Dimension(65, 30));
+        expenseDate2.setMinimumSize(new java.awt.Dimension(65, 30));
+        expenseDate2.setPreferredSize(new java.awt.Dimension(65, 30));
+        jPanel2.add(expenseDate2);
+
+        expenseDate1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
+        expenseDate1.setMaximumSize(new java.awt.Dimension(50, 30));
+        expenseDate1.setMinimumSize(new java.awt.Dimension(50, 30));
+        expenseDate1.setPreferredSize(new java.awt.Dimension(50, 30));
+        jPanel2.add(expenseDate1);
 
         expenseDate.setModel(new javax.swing.SpinnerNumberModel(1, 1, 31, 1));
         expenseDate.setMaximumSize(new java.awt.Dimension(50, 30));
         expenseDate.setMinimumSize(new java.awt.Dimension(50, 30));
+        expenseDate.setPreferredSize(new java.awt.Dimension(50, 30));
         jPanel2.add(expenseDate);
 
         rightSideBar.add(jPanel2);
@@ -399,6 +415,7 @@ public class Main extends javax.swing.JFrame {
 
         rightSideBar.add(jPanel8);
 
+        amount.setText("1000");
         amount.setMaximumSize(new java.awt.Dimension(140, 30));
         amount.setPreferredSize(new java.awt.Dimension(30, 10));
         rightSideBar.add(amount);
@@ -406,7 +423,7 @@ public class Main extends javax.swing.JFrame {
         jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.LINE_AXIS));
 
         expense.setEditable(true);
-        expense.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "opcion1", "opcion2" }));
+        expense.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Personal", "Trabajo" }));
         expense.setMaximumSize(new java.awt.Dimension(120, 30));
         expense.setMinimumSize(new java.awt.Dimension(20, 20));
         expense.setPreferredSize(new java.awt.Dimension(80, 20));
@@ -422,7 +439,7 @@ public class Main extends javax.swing.JFrame {
         jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.LINE_AXIS));
 
         matrix.setEditable(true);
-        matrix.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "opcion1", "opcion2" }));
+        matrix.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hogar", "Universidad" }));
         matrix.setMaximumSize(new java.awt.Dimension(120, 30));
         matrix.setMinimumSize(new java.awt.Dimension(20, 20));
         matrix.setPreferredSize(new java.awt.Dimension(80, 20));
@@ -438,7 +455,7 @@ public class Main extends javax.swing.JFrame {
         jPanel11.setLayout(new javax.swing.BoxLayout(jPanel11, javax.swing.BoxLayout.LINE_AXIS));
 
         payment.setEditable(true);
-        payment.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "opcion1", "opcion2" }));
+        payment.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tarjeta", "Efectivo" }));
         payment.setMaximumSize(new java.awt.Dimension(120, 30));
         payment.setMinimumSize(new java.awt.Dimension(20, 20));
         payment.setPreferredSize(new java.awt.Dimension(80, 20));
@@ -571,7 +588,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(addYearWorkbook, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(autoMonthlyBoudget, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -700,6 +717,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitProgramItem;
     private javax.swing.JComboBox<String> expense;
     private javax.swing.JSpinner expenseDate;
+    private javax.swing.JSpinner expenseDate1;
+    private javax.swing.JSpinner expenseDate2;
     private javax.swing.JMenuItem exportItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.Box.Filler filler1;
@@ -710,7 +729,6 @@ public class Main extends javax.swing.JFrame {
     public javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;

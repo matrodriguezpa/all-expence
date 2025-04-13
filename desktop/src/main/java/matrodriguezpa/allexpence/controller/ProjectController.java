@@ -35,7 +35,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import matrodriguezpa.allexpence.model.DatabaseModel;
+import matrodriguezpa.allexpence.model.project;
 import matrodriguezpa.allexpence.view.Export;
 import matrodriguezpa.allexpence.view.Main;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -43,7 +43,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 public class ProjectController {
 
-    private final DatabaseModel model;
+    private final project model;
     private final Main view;
 
     private String projectName;
@@ -54,7 +54,7 @@ public class ProjectController {
     private DefaultTreeModel treeModel;
     ButtonGroup buttonGroup = new ButtonGroup();
 
-    public ProjectController(DatabaseModel model, Main view) {
+    public ProjectController(project model, Main view) {
         this.model = model;
         this.view = view;
         initController();
@@ -278,13 +278,26 @@ public class ProjectController {
             String sql = "INSERT INTO " + projectName + "_" + projectYear + "_" + proyectMonth + " (date, company, amount, expense, matrix, payment) VALUES (?, ?, ?, ?, ?, ?)";
 
             // Establecer los valores para cada columna (ajustar según los tipos de datos de las columnas)
-            String Day = String.valueOf(view.getExpenseDate().getValue());
-            System.out.println(view.getExpenseDate().getValue());
+            int Year = (int) view.getExpenseDate2().getValue();
+            int Month = (int) view.getExpenseDate1().getValue();
+            int Day = (int) view.getExpenseDate().getValue();
+            String Date = Year + "-" + Month + "-" + Day; // Fecha
+            System.out.println("Fecha insertada:" + Date);
             
+            //validar la fecha
+            if (Month == 2 && Day > 29) {
+                JOptionPane.showMessageDialog(null, "Fecha invalida.");
+            }
+
             int index = view.getExpense().getSelectedIndex();
             String Company = view.getCompany().getItemAt(index);  // Razon social
 
             Double Amount = Double.valueOf(view.getAmount().getText()); // Monto
+            
+            //Validación de la cantidad.
+            if (Amount <0 ){
+                JOptionPane.showMessageDialog(null, "Monto inválido.");
+            }
             
             index = view.getExpense().getSelectedIndex();
             String Expense = view.getExpense().getItemAt(index); // Gasto
@@ -296,9 +309,13 @@ public class ProjectController {
             String Payment = view.getPayment().getItemAt(index); // Forma de pago
 
             // Ejecutar la consulta
-            model.executeUpdate4(sql, Day, Company, Amount, Expense, Matrix, Payment);
+            model.executeUpdate4(sql, Date, Company, Amount, Expense, Matrix, Payment);
             updateMainTable();
             JOptionPane.showMessageDialog(null, "Inserción exitosa.");
+            
+            //Agregar la nueva opción a la lista
+            
+            
         } catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
