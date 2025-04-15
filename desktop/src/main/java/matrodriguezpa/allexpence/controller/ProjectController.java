@@ -30,14 +30,16 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 
 import matrodriguezpa.allexpence.model.project;
-import matrodriguezpa.allexpence.view.Export;
 import matrodriguezpa.allexpence.view.Main;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ProjectController {
 
@@ -50,6 +52,12 @@ public class ProjectController {
 
     private DefaultTableModel tableModel;
     private DefaultTreeModel treeModel;
+
+    String[] months = {
+        "January", "February", "March", 
+        "April", "May", "June",
+        "July", "August", "September", 
+        "October", "November", "December"};
 
     public ProjectController(project model, Main view) {
         this.model = model;
@@ -72,12 +80,11 @@ public class ProjectController {
         view.getAddExpense().addActionListener(e -> createExpense());
         view.getExportItem().addActionListener(e -> ExportProject());
         view.getExitProgramItem().addActionListener(e -> closeProgram());
-        view.getPreviewItem().addActionListener(e -> openPreview());
         view.getAddCompanyButton().addActionListener(e -> expeseAddButton(0));
         view.getAddExpenseButton().addActionListener(e -> expeseAddButton(1));
         view.getAddMatrixButton().addActionListener(e -> expeseAddButton(2));
-        view.getAddPaymentButton().addActionListener(e -> expeseAddButton(3));        
-        
+        view.getAddPaymentButton().addActionListener(e -> expeseAddButton(3));
+        view.getAboutItem().addActionListener(e -> openAboutWindow());
         updateNavigationTree();
     }
 
@@ -126,7 +133,7 @@ public class ProjectController {
                 + "payment VARCHAR(255));";
 
         try {
-            model.executeUpdate(sql); 
+            model.executeUpdate(sql);
             JOptionPane.showMessageDialog(view, "Month in a Project table: '" + monthTableName + "' created.");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(view, "Error creando la tabla: " + e.getMessage());
@@ -150,7 +157,7 @@ public class ProjectController {
             JOptionPane.showMessageDialog(view, "Invalid month number.");
             return;
         }
-        
+
         String monthColumn = "month_" + monthNumber;
         String sql = "UPDATE projects SET " + monthColumn + " = ? WHERE name = ?";
 
@@ -274,7 +281,7 @@ public class ProjectController {
             int Day = (int) view.getExpenseDate().getValue();
             String Date = Year + "-" + Month + "-" + Day; // Fecha
             System.out.println("Fecha insertada:" + Date);
-            
+
             //validar la fecha
             if (Month == 2 && Day > 29) {
                 JOptionPane.showMessageDialog(null, "Fecha invalida.");
@@ -284,18 +291,18 @@ public class ProjectController {
             String Company = view.getCompany().getItemAt(index);  // Razon social
 
             Double Amount = Double.valueOf(view.getAmount().getText()); // Monto
-            
+
             //Validación de la cantidad.
-            if (Amount <0 ){
+            if (Amount < 0) {
                 JOptionPane.showMessageDialog(null, "Monto inválido.");
             }
-            
+
             index = view.getExpense().getSelectedIndex();
             String Expense = view.getExpense().getItemAt(index); // Gasto
-            
+
             index = view.getMatrix().getSelectedIndex();
             String Matrix = view.getMatrix().getItemAt(index); // Matriz
-            
+
             index = view.getPayment().getSelectedIndex();
             String Payment = view.getPayment().getItemAt(index); // Forma de pago
 
@@ -303,16 +310,15 @@ public class ProjectController {
             model.executeUpdate4(sql, Date, Company, Amount, Expense, Matrix, Payment);
             updateMainTable();
             JOptionPane.showMessageDialog(null, "Inserción exitosa.");
-            
-            //Agregar la nueva opción a la lista
-            
-            
+
         } catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 
-    private void expeseAddButton(int index) {
+    private void expeseAddButton(int index) {//el indice seleccionadode la lista company, expense, matrix, payment
+
+        view.getAddExpensedata().setSelectedIndex(index);
 
         int result = JOptionPane.showConfirmDialog(
                 null,
@@ -321,9 +327,6 @@ public class ProjectController {
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE
         );
-
-        view.getAddExpensedata().setSelectedIndex(index);
-       
 
         if (result == JOptionPane.OK_OPTION) {
             String resultado = view.getAddExpenseDataJText().getText();
@@ -344,7 +347,6 @@ public class ProjectController {
         }
     }
 
-    
     /*update view*/
     private void updateNavigationTree() {
         ResultSet resul;
@@ -396,7 +398,6 @@ public class ProjectController {
         }
     }
 
-
     //si el nodo seleccionado en la navegación cambia, actualizar la tabla principal
     private void LeftNavigationValueChanged() {
         // Obtener el nodo seleccionado del JTree
@@ -443,6 +444,7 @@ public class ProjectController {
                     resul.getString("payment"),});
             }
         } catch (SQLException e) {
+
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
@@ -452,6 +454,10 @@ public class ProjectController {
 
         // Simula la consulta a la base de datos para obtener los usuarios únicos
         List<String> usuarios = getUsuariosDeProyectos();
+        if (usuarios == null) {
+            JOptionPane.showMessageDialog(null, "Tabla usuarios no existente o no hay usuarios en la tabla.");
+            return;
+        }
 
         // Crear un ButtonGroup para que los radio buttons sean mutuamente excluyentes
         ButtonGroup grupoUsuarios = new ButtonGroup();
@@ -497,14 +503,14 @@ public class ProjectController {
                     usuarios.add(rs.getString("name"));
                 }
             }
-
+            return usuarios;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        return usuarios;
+        return null;
     }
 
-    /*Methods for the preview window*/
+    /*Methods for the preview window
     private void openPreview() {
         // Create the main preview window
         JFrame previewFrame = new JFrame("Export Preview");
@@ -522,21 +528,67 @@ public class ProjectController {
 
         // Make the window visible
         previewFrame.setVisible(true);
+    }*/
+    private void createFileContentExcel(Workbook workbook) {
+        try {
+            String sql = "SELECT * FROM " + projectName + "_" + projectYear + "_" + proyectMonth;
+            System.out.println("Consulta SQL: " + sql);
+            ResultSet resul = model.executeQuery(sql);
+
+            // Create a sheet
+            Sheet sheet = workbook.createSheet(months[Integer.parseInt(proyectMonth) - 1]);
+
+            // Create a header row
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("Date");
+            headerRow.createCell(1).setCellValue("Company");
+            headerRow.createCell(2).setCellValue("Amount");
+            headerRow.createCell(3).setCellValue("Expense");
+            headerRow.createCell(4).setCellValue("Matrix");
+            headerRow.createCell(5).setCellValue("Payment");
+
+            int rowNum = 1; // Start from second row (after header)
+            while (resul.next()) {
+                Row row = sheet.createRow(rowNum++);
+
+                row.createCell(0).setCellValue(resul.getString("date"));
+                row.createCell(1).setCellValue(resul.getString("company"));
+                row.createCell(2).setCellValue(resul.getDouble("amount"));
+                row.createCell(3).setCellValue(resul.getString("expense"));
+                row.createCell(4).setCellValue(resul.getString("matrix"));
+                row.createCell(5).setCellValue(resul.getString("payment"));
+
+                // Also add to tableModel if needed (optional)
+                tableModel.addRow(new Object[]{
+                    resul.getString("date"),
+                    resul.getString("company"),
+                    resul.getDouble("amount"),
+                    resul.getString("expense"),
+                    resul.getString("matrix"),
+                    resul.getString("payment"),});
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
 
-    /*Exporting methods*/
     private void createExport(String filePath, String fileExtension) {
         // This is the method to handle the actual export logic
         System.out.println("Exporting to: " + filePath);
         System.out.println("File type: " + fileExtension);
 
-        // Add your logic to export the file to Excel here
-        String filename = filePath;
-        File file = new File(filename);
+        Workbook workbook;
+
+        workbook = new XSSFWorkbook();
+
+        // Fill in the content
+        createFileContentExcel(workbook);
+
+        File file = new File(filePath);
         file.getParentFile().mkdirs(); // Crear directorios padres si no existen
+
         try (OutputStream fileOut = new FileOutputStream(file)) {
-            Workbook wb = new HSSFWorkbook();
-            wb.write(fileOut);
+            workbook.write(fileOut);
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } catch (IOException e) {
@@ -551,10 +603,10 @@ public class ProjectController {
         // Set up the file filter for .xls and .xlsx files
         FileNameExtensionFilter filter;
 
-        filter = new FileNameExtensionFilter("Excel 2003", "xls");
-        fileChooser.setFileFilter(filter);
-        filter = new FileNameExtensionFilter("Excel 2007", "xlsx");
-        fileChooser.setFileFilter(filter);
+        FileNameExtensionFilter xlsxFilter = new FileNameExtensionFilter("Excel 2007 (*.xlsx)", "xlsx");
+
+        // Add both filters
+        fileChooser.addChoosableFileFilter(xlsxFilter);
 
         // Open the Save dialog
         int returnValue = fileChooser.showSaveDialog(null);
@@ -567,12 +619,13 @@ public class ProjectController {
             String filePath = selectedFile.getAbsolutePath();
 
             // Get the selected file extension (xls or xlsx)
-            String fileExtension = fileChooser.getFileFilter().getDescription().equals("Excel Files") ? "xls" : "xlsx";
+            FileNameExtensionFilter selectedFilter = (FileNameExtensionFilter) fileChooser.getFileFilter();
+            String[] extensions = selectedFilter.getExtensions();
+
+            String fileExtension = extensions[0]; // This will be "xls" or "xlsx"
 
             // If the user didn't include an extension, append .xls as default
-            if (!filePath.toLowerCase().endsWith(".xls") && !filePath.toLowerCase().endsWith(".xlsx")) {
-                filePath += "." + fileExtension;
-            }
+            filePath += "." + fileExtension;
 
             // Now you can pass the file path, name, and type to another method to handle the actual export
             createExport(filePath, fileExtension);
@@ -606,36 +659,18 @@ public class ProjectController {
             System.exit(0);
         }
     }
-    
-    /*
-    public ConfigController() {
 
+    private void openAboutWindow() {
+
+        // Create a JOptionPane with the panel and OK option
+        JOptionPane optionPane = new JOptionPane(view.getjPanel6(), JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION);
+
+        // Create a JDialog to show the option pane
+        JDialog dialog = optionPane.createDialog("About");
+
+        // Optional: make it modal
+        dialog.setModal(true);
+        dialog.setResizable(false);
+        dialog.setVisible(true);
     }
-
-    private void getSettings() {
-
-        try {
-            // Initialize ConfigManager with the path to your config file
-            ConfigModel configManager = new ConfigModel("C:\\Users\\Usuario\\Documents\\GitHub\\one-spencer\\src\\main\\resources\\config.properties");
-
-            // Retrieve properties
-            String theme = configManager.getProperty("view.theme");
-            String textSize = configManager.getProperty("view.textsize");
-            String language = configManager.getProperty("view.language");
-
-            // Print current settings
-            System.out.println("Current theme: " + theme);
-            System.out.println("Text size: " + textSize);
-            System.out.println("Language: " + language);
-
-            // Update a property
-            configManager.setProperty("view.theme", "lightmode");
-
-            // Confirm update
-            System.out.println("Updated theme: " + configManager.getProperty("view.theme"));
-
-        } catch (IOException e) {
-            System.out.println("Error: " + e);
-        }
-    }*/
 }

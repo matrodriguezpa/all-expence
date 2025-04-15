@@ -27,11 +27,6 @@ public class Export extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jSplitPane1 = new javax.swing.JSplitPane();
-        autoMonthlyBoudget = new javax.swing.JToolBar();
-        autoBudgetLabel = new javax.swing.JLabel();
-        autoBudgetCheckBox = new javax.swing.JCheckBox();
-        monthlyBudget = new javax.swing.JTextField();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         mainTableScroll = new javax.swing.JScrollPane();
@@ -65,34 +60,6 @@ public class Export extends javax.swing.JPanel {
         jTable15 = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
-
-        autoMonthlyBoudget.setRollover(true);
-        autoMonthlyBoudget.setMaximumSize(new java.awt.Dimension(200, 30));
-        autoMonthlyBoudget.setMinimumSize(new java.awt.Dimension(200, 30));
-        autoMonthlyBoudget.setPreferredSize(new java.awt.Dimension(200, 30));
-
-        autoBudgetLabel.setText("Auto Monthly budget");
-        autoMonthlyBoudget.add(autoBudgetLabel);
-
-        autoBudgetCheckBox.setSelected(true);
-        autoBudgetCheckBox.setFocusable(false);
-        autoBudgetCheckBox.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        autoBudgetCheckBox.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        autoMonthlyBoudget.add(autoBudgetCheckBox);
-
-        monthlyBudget.setMaximumSize(new java.awt.Dimension(80, 30));
-        monthlyBudget.setMinimumSize(new java.awt.Dimension(80, 26));
-        monthlyBudget.setPreferredSize(new java.awt.Dimension(80, 10));
-        monthlyBudget.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                monthlyBudgetActionPerformed(evt);
-            }
-        });
-        autoMonthlyBoudget.add(monthlyBudget);
-
-        jSplitPane1.setLeftComponent(autoMonthlyBoudget);
-
-        add(jSplitPane1, java.awt.BorderLayout.PAGE_END);
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -366,16 +333,9 @@ public class Export extends javax.swing.JPanel {
         add(jTabbedPane1, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void monthlyBudgetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthlyBudgetActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_monthlyBudgetActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane Middle;
-    private javax.swing.JCheckBox autoBudgetCheckBox;
-    private javax.swing.JLabel autoBudgetLabel;
-    private javax.swing.JToolBar autoMonthlyBoudget;
     private javax.swing.JTable dailyExpenses1;
     private javax.swing.JScrollPane expensesScroll2;
     private javax.swing.JList<String> jList1;
@@ -392,7 +352,6 @@ public class Export extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane20;
     private javax.swing.JScrollPane jScrollPane21;
-    private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable10;
     private javax.swing.JTable jTable11;
@@ -408,6 +367,5 @@ public class Export extends javax.swing.JPanel {
     private javax.swing.JToolBar jToolBar3;
     private javax.swing.JTable mainTable;
     private javax.swing.JScrollPane mainTableScroll;
-    private javax.swing.JTextField monthlyBudget;
     // End of variables declaration//GEN-END:variables
 }
