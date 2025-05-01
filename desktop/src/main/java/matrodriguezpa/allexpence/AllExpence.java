@@ -1,15 +1,15 @@
 package matrodriguezpa.allexpence;
 
-import matrodriguezpa.allexpence.controller.ProjectController;
-import matrodriguezpa.allexpence.model.project;
-import matrodriguezpa.allexpence.view.Main;
+import matrodriguezpa.allexpence.controller.Controller;
+import matrodriguezpa.allexpence.model.model;
+import matrodriguezpa.allexpence.view.View;
 
 public class AllExpence {
 
     public static void main(String[] args) {
-        project model = new project();
-        Main view = new Main();
-        ProjectController controller = new ProjectController(model, view);
+        model model = new model();
+        View view = new View();
+        Controller controller = new Controller(model, view);
 
         controller.start();
         

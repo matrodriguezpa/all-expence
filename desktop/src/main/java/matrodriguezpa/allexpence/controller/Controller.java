@@ -1,12 +1,11 @@
 package matrodriguezpa.allexpence.controller;
 
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.HeadlessException;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,8 +21,6 @@ import javax.swing.AbstractButton;
 import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.TreePath;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -33,18 +30,13 @@ import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
-import matrodriguezpa.allexpence.model.project;
-import matrodriguezpa.allexpence.view.Main;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import matrodriguezpa.allexpence.model.model;
+import matrodriguezpa.allexpence.view.View;
 
-public class ProjectController {
+public class Controller {
 
-    private final project model;
-    private final Main view;
+    private final model model;
+    private final View view;
 
     private String projectName;
     private String projectYear;
@@ -59,7 +51,8 @@ public class ProjectController {
         "July", "August", "September", 
         "October", "November", "December"};
 
-    public ProjectController(project model, Main view) {
+    /*Constructor*/
+    public Controller(model model, View view) {
         this.model = model;
         this.view = view;
         initController();
@@ -74,21 +67,25 @@ public class ProjectController {
         // Agregar las acciones de los botónes de la pantalla principal
         view.getNewProjectItem().addActionListener(e -> createProject());
         view.getOpenProjectItem().addActionListener(e -> openProject());
+        view.getCloseProjectItem().addActionListener(e -> closeProject());
         view.getAddWorkBook().addActionListener(e -> createProject());
         view.getAddWorkBook1().addActionListener(e -> createMonth());
         view.getLeftNavigation().addTreeSelectionListener(e -> LeftNavigationValueChanged());
         view.getAddExpense().addActionListener(e -> createExpense());
-        view.getExportItem().addActionListener(e -> ExportProject());
         view.getExitProgramItem().addActionListener(e -> closeProgram());
         view.getAddCompanyButton().addActionListener(e -> expeseAddButton(0));
         view.getAddExpenseButton().addActionListener(e -> expeseAddButton(1));
         view.getAddMatrixButton().addActionListener(e -> expeseAddButton(2));
         view.getAddPaymentButton().addActionListener(e -> expeseAddButton(3));
         view.getAboutItem().addActionListener(e -> openAboutWindow());
+        view.getJavadocItem().addActionListener(e -> openJavaDoc());
+        view.getdocumentationItem().addActionListener(e -> openDocumentation());
+        
         updateNavigationTree();
+        setViewVisible(false);
     }
 
-    /*starting*/
+    /*Starting*/
     private void connectDatabase() {
         try {
             model.connect();
@@ -96,10 +93,6 @@ public class ProjectController {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(view, e.getMessage());
         }
-    }
-
-    private void getSettings() {
-        //ConfigController
     }
 
     /*Tables creation*/
@@ -150,7 +143,7 @@ public class ProjectController {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(view, "Error creating the project: " + e.getMessage());
         }
-    }//insert a new project on the project list table
+    }//insert a new model on the model list table
 
     private void insertNewMonth(int monthNumber, String projectName) {
         if (monthNumber < 1 || monthNumber > 12) {
@@ -193,8 +186,18 @@ public class ProjectController {
                 createMonth();
                 updateNavigationTree();
             }
-
         }
+    }
+
+    private void closeProject() {
+        projectName = null;
+        projectYear = null;
+        proyectMonth = null;
+
+        updateMainTable();
+        updateNavigationTree();
+
+        setViewVisible(false);
     }
 
     private void createMonth() {
@@ -203,7 +206,7 @@ public class ProjectController {
         try {
             resul = model.executeQuery("SELECT * FROM projects");
         } catch (SQLException ex) {
-            Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -211,12 +214,11 @@ public class ProjectController {
 
         try {
             // Crear un botón de opción por cada name encontrado
-
             while (resul.next()) {
                 String projectNamelist = resul.getString(1);
                 String projectYearlist = resul.getString(2);
 
-                // Create a new panel for each project-year entry
+                // Create a new panel for each model-year entry
                 JPanel panelButtonList = new JPanel();
 
                 JLabel label = new JLabel(projectNamelist);
@@ -228,10 +230,9 @@ public class ProjectController {
 
                 // Add directly to view's panel
                 view.getProyectListJpanel().add(panelButtonList);
-
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // Mostrar el diálogo para crear el mes
@@ -349,9 +350,15 @@ public class ProjectController {
 
     /*update view*/
     private void updateNavigationTree() {
-        ResultSet resul;
+        if (projectName == null) {
+            // Clear the tree by setting an empty root
+            DefaultMutableTreeNode emptyRoot = new DefaultMutableTreeNode("No Project");
+            treeModel = new DefaultTreeModel(emptyRoot);
+            view.getLeftNavigation().setModel(treeModel);
+            return;
+        }
         try {
-            resul = model.executeQuery("SELECT * FROM projects WHERE name = '" + projectName + "'");
+            ResultSet resul = model.executeQuery("SELECT * FROM projects WHERE name = '" + projectName + "'");
 
             // Crear el nodo raíz del árbol
             DefaultMutableTreeNode root = new DefaultMutableTreeNode(projectName);
@@ -385,6 +392,25 @@ public class ProjectController {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+
+    }
+
+    private void setViewVisible(Boolean value) {
+        view.getaddWorkbook().setEnabled(value);
+        view.getaddWorkbook1().setEnabled(value);
+        view.getAddExpense().setEnabled(value);
+        view.getLeftNavigation().setEnabled(value);
+        view.getMainTable().setEnabled(value);
+        view.getExpenseDate().setEnabled(value);
+        view.getCompany().setEnabled(value);
+        view.getAddCompanyButton().setEnabled(value);
+        view.getAmount().setEnabled(value);
+        view.getExpense().setEnabled(value);
+        view.getAddExpense().setEnabled(value);
+        view.getMatrix().setEnabled(value);
+        view.getAddMatrixButton().setEnabled(value);
+        view.getPayment().setEnabled(value);
+        view.getAddPaymentButton().setEnabled(value);
     }
 
     public void expandAllNodes(JTree tree, DefaultMutableTreeNode node) {
@@ -428,11 +454,13 @@ public class ProjectController {
     private void updateMainTable() {
         tableModel = (DefaultTableModel) view.getMainTable().getModel();
         tableModel.setRowCount(0);
-        ResultSet resul;
+        
+        if (projectName == null) {return;}
+        
         try {
             String sql = "SELECT * FROM " + projectName + "_" + projectYear + "_" + proyectMonth;
             System.out.println("Consulta SQL: " + sql);
-            resul = model.executeQuery(sql);
+            ResultSet resul = model.executeQuery(sql);
 
             while (resul.next()) {
                 tableModel.addRow(new Object[]{
@@ -443,6 +471,8 @@ public class ProjectController {
                     resul.getString("matrix"),
                     resul.getString("payment"),});
             }
+            view.getExpenseDate2().setValue(Integer.valueOf(projectYear));
+            view.getExpenseDate1().setValue(Integer.valueOf(proyectMonth));
         } catch (SQLException e) {
 
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -486,8 +516,9 @@ public class ProjectController {
                     break;
                 }
             }
+            //mostrar los botones de agregar años, mes y gastos 
+            setViewVisible(true);
         }
-
     }
 
     //method to get unique users
@@ -510,128 +541,6 @@ public class ProjectController {
         return null;
     }
 
-    /*Methods for the preview window
-    private void openPreview() {
-        // Create the main preview window
-        JFrame previewFrame = new JFrame("Export Preview");
-        previewFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        previewFrame.setSize(600, 400);
-
-        // Create the export panel within the preview window
-        Export exportWindow = new Export();
-
-        // Add the export panel to the preview frame's content pane
-        previewFrame.getContentPane().add(exportWindow);
-
-        // Center the window on the screen
-        previewFrame.setLocationRelativeTo(null);
-
-        // Make the window visible
-        previewFrame.setVisible(true);
-    }*/
-    private void createFileContentExcel(Workbook workbook) {
-        try {
-            String sql = "SELECT * FROM " + projectName + "_" + projectYear + "_" + proyectMonth;
-            System.out.println("Consulta SQL: " + sql);
-            ResultSet resul = model.executeQuery(sql);
-
-            // Create a sheet
-            Sheet sheet = workbook.createSheet(months[Integer.parseInt(proyectMonth) - 1]);
-
-            // Create a header row
-            Row headerRow = sheet.createRow(0);
-            headerRow.createCell(0).setCellValue("Date");
-            headerRow.createCell(1).setCellValue("Company");
-            headerRow.createCell(2).setCellValue("Amount");
-            headerRow.createCell(3).setCellValue("Expense");
-            headerRow.createCell(4).setCellValue("Matrix");
-            headerRow.createCell(5).setCellValue("Payment");
-
-            int rowNum = 1; // Start from second row (after header)
-            while (resul.next()) {
-                Row row = sheet.createRow(rowNum++);
-
-                row.createCell(0).setCellValue(resul.getString("date"));
-                row.createCell(1).setCellValue(resul.getString("company"));
-                row.createCell(2).setCellValue(resul.getDouble("amount"));
-                row.createCell(3).setCellValue(resul.getString("expense"));
-                row.createCell(4).setCellValue(resul.getString("matrix"));
-                row.createCell(5).setCellValue(resul.getString("payment"));
-
-                // Also add to tableModel if needed (optional)
-                tableModel.addRow(new Object[]{
-                    resul.getString("date"),
-                    resul.getString("company"),
-                    resul.getDouble("amount"),
-                    resul.getString("expense"),
-                    resul.getString("matrix"),
-                    resul.getString("payment"),});
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-    }
-
-    private void createExport(String filePath, String fileExtension) {
-        // This is the method to handle the actual export logic
-        System.out.println("Exporting to: " + filePath);
-        System.out.println("File type: " + fileExtension);
-
-        Workbook workbook;
-
-        workbook = new XSSFWorkbook();
-
-        // Fill in the content
-        createFileContentExcel(workbook);
-
-        File file = new File(filePath);
-        file.getParentFile().mkdirs(); // Crear directorios padres si no existen
-
-        try (OutputStream fileOut = new FileOutputStream(file)) {
-            workbook.write(fileOut);
-        } catch (FileNotFoundException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-    }
-
-    private void ExportProject() {
-        // Create a file chooser
-        JFileChooser fileChooser = new JFileChooser();
-
-        // Set up the file filter for .xls and .xlsx files
-        FileNameExtensionFilter filter;
-
-        FileNameExtensionFilter xlsxFilter = new FileNameExtensionFilter("Excel 2007 (*.xlsx)", "xlsx");
-
-        // Add both filters
-        fileChooser.addChoosableFileFilter(xlsxFilter);
-
-        // Open the Save dialog
-        int returnValue = fileChooser.showSaveDialog(null);
-
-        // If the user selects a file and clicks save
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-
-            // Get the file path
-            String filePath = selectedFile.getAbsolutePath();
-
-            // Get the selected file extension (xls or xlsx)
-            FileNameExtensionFilter selectedFilter = (FileNameExtensionFilter) fileChooser.getFileFilter();
-            String[] extensions = selectedFilter.getExtensions();
-
-            String fileExtension = extensions[0]; // This will be "xls" or "xlsx"
-
-            // If the user didn't include an extension, append .xls as default
-            filePath += "." + fileExtension;
-
-            // Now you can pass the file path, name, and type to another method to handle the actual export
-            createExport(filePath, fileExtension);
-        }
-    }
-
     /* Methods to close up the programm */
     private void cleanupResources() {
         // Perform any cleanup tasks, such as saving data or closing files
@@ -641,7 +550,7 @@ public class ProjectController {
         try {
             model.close();
         } catch (SQLException ex) {
-            Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -650,12 +559,8 @@ public class ProjectController {
         int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit Confirmation",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
-        // If the user confirms, proceed with closing
         if (confirm == JOptionPane.YES_OPTION) {
-            // Perform any necessary cleanup (e.g., saving state, closing resources)
-            cleanupResources();
-
-            // Exit the application
+            cleanupResources();            
             System.exit(0);
         }
     }
@@ -672,5 +577,20 @@ public class ProjectController {
         dialog.setModal(true);
         dialog.setResizable(false);
         dialog.setVisible(true);
+    }
+
+    private void openJavaDoc() {
+        try {
+            Desktop.getDesktop().browse(new URI("https://www.openai.com"));
+        } catch (IOException | URISyntaxException ex) {
+            System.out.println("Error abriendo link");
+        }
+    }
+    private void openDocumentation() {
+        try {
+            Desktop.getDesktop().browse(new URI("https://www.openai.com"));
+        } catch (IOException | URISyntaxException ex) {
+            System.out.println("Error abriendo link");
+        }
     }
 }

@@ -17,12 +17,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 
-public class Main extends javax.swing.JFrame {
+public class View extends javax.swing.JFrame {
 
     ImageIcon icon = new ImageIcon("src\\main\\resources\\Images\\Logo.png"); //Icono de la aplicación
     FlatLightLaf style = new FlatLightLaf();
 
-    public Main() {
+    public View() {
         try {
             UIManager.setLookAndFeel(style);
         } catch (UnsupportedLookAndFeelException e) {
@@ -44,7 +44,7 @@ public class Main extends javax.swing.JFrame {
             Thread.sleep(2500); // Wait for 1 second
             loadingFrame.dispose();
         } catch (InterruptedException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         // Initialize components after loading
@@ -77,9 +77,6 @@ public class Main extends javax.swing.JFrame {
         return exitProgramItem;
     }
 
-    public JMenuItem getExportItem() {
-        return exportItem;
-    }
     public JPanel getNewProjectJPanel() {
         return NewProject;
     }
@@ -217,7 +214,25 @@ public class Main extends javax.swing.JFrame {
     public ButtonGroup getButtonGroup1() {
         return buttonGroup1;
     }
+
+    public JButton getAddExpensebutton() {
+        return addExpensebutton;
+    }
     
+    public JButton getaddWorkbook(){
+        return addWorkBook;
+    }
+    public JButton getaddWorkbook1(){
+        return addWorkBook1;
+    }
+
+    public JMenuItem getJavadocItem() {
+        return javadocItem;
+    }
+    
+    public JMenuItem getdocumentationItem(){
+        return documentationItem;
+    }
     
     
     @SuppressWarnings("unchecked")
@@ -281,7 +296,6 @@ public class Main extends javax.swing.JFrame {
         mainTable = new javax.swing.JTable();
         bottomBar = new javax.swing.JToolBar();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(250, 0), new java.awt.Dimension(32767, 0));
-        jPanel1 = new javax.swing.JPanel();
         addYearWorkbook = new javax.swing.JToolBar();
         addWorkBook = new javax.swing.JButton();
         addWorkBook1 = new javax.swing.JButton();
@@ -292,8 +306,6 @@ public class Main extends javax.swing.JFrame {
         openProjectItem = new javax.swing.JMenuItem();
         closeProjectItem = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        exportItem = new javax.swing.JMenuItem();
-        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         exitProgramItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         documentationItem = new javax.swing.JMenuItem();
@@ -417,19 +429,22 @@ public class Main extends javax.swing.JFrame {
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel3.setText("Date:");
-        jLabel3.setMaximumSize(new java.awt.Dimension(30, 30));
-        jLabel3.setMinimumSize(new java.awt.Dimension(30, 30));
-        jLabel3.setPreferredSize(new java.awt.Dimension(30, 30));
+        jLabel3.setText("Date");
+        jLabel3.setMaximumSize(new java.awt.Dimension(35, 30));
+        jLabel3.setMinimumSize(new java.awt.Dimension(35, 30));
+        jLabel3.setPreferredSize(new java.awt.Dimension(35, 30));
         jPanel2.add(jLabel3);
 
-        expenseDate2.setModel(new javax.swing.SpinnerNumberModel(2025, 0, 3000, 1));
+        expenseDate2.setModel(new javax.swing.SpinnerNumberModel(2025, null, null, 1));
+        expenseDate2.setEnabled(false);
         expenseDate2.setMaximumSize(new java.awt.Dimension(65, 30));
         expenseDate2.setMinimumSize(new java.awt.Dimension(65, 30));
         expenseDate2.setPreferredSize(new java.awt.Dimension(65, 30));
         jPanel2.add(expenseDate2);
 
         expenseDate1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
+        expenseDate1.setEnabled(false);
+        expenseDate1.setFocusable(false);
         expenseDate1.setMaximumSize(new java.awt.Dimension(50, 30));
         expenseDate1.setMinimumSize(new java.awt.Dimension(50, 30));
         expenseDate1.setPreferredSize(new java.awt.Dimension(50, 30));
@@ -443,13 +458,16 @@ public class Main extends javax.swing.JFrame {
 
         rightSideBar.add(jPanel2);
 
+        jPanel8.setMaximumSize(new java.awt.Dimension(200, 30));
+        jPanel8.setMinimumSize(new java.awt.Dimension(200, 30));
+        jPanel8.setPreferredSize(new java.awt.Dimension(200, 30));
         jPanel8.setLayout(new javax.swing.BoxLayout(jPanel8, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel5.setText("Company");
-        jLabel5.setMaximumSize(new java.awt.Dimension(30, 30));
-        jLabel5.setMinimumSize(new java.awt.Dimension(30, 30));
-        jLabel5.setPreferredSize(new java.awt.Dimension(30, 30));
+        jLabel5.setMaximumSize(new java.awt.Dimension(80, 30));
+        jLabel5.setMinimumSize(new java.awt.Dimension(80, 30));
+        jLabel5.setPreferredSize(new java.awt.Dimension(80, 30));
         jPanel8.add(jLabel5);
 
         company.setEditable(true);
@@ -472,30 +490,35 @@ public class Main extends javax.swing.JFrame {
 
         rightSideBar.add(jPanel8);
 
+        jPanel4.setMaximumSize(new java.awt.Dimension(200, 30));
+        jPanel4.setMinimumSize(new java.awt.Dimension(200, 30));
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel9.setText("Amount");
-        jLabel9.setMaximumSize(new java.awt.Dimension(30, 30));
-        jLabel9.setMinimumSize(new java.awt.Dimension(30, 30));
-        jLabel9.setPreferredSize(new java.awt.Dimension(30, 30));
+        jLabel9.setMaximumSize(new java.awt.Dimension(80, 30));
+        jLabel9.setMinimumSize(new java.awt.Dimension(80, 30));
+        jLabel9.setPreferredSize(new java.awt.Dimension(80, 30));
         jPanel4.add(jLabel9);
 
         amount.setText("1000");
-        amount.setMaximumSize(new java.awt.Dimension(150, 30));
-        amount.setMinimumSize(new java.awt.Dimension(150, 30));
-        amount.setPreferredSize(new java.awt.Dimension(150, 30));
+        amount.setMaximumSize(new java.awt.Dimension(120, 30));
+        amount.setMinimumSize(new java.awt.Dimension(120, 30));
+        amount.setPreferredSize(new java.awt.Dimension(120, 30));
         jPanel4.add(amount);
 
         rightSideBar.add(jPanel4);
 
+        jPanel9.setMaximumSize(new java.awt.Dimension(200, 30));
+        jPanel9.setMinimumSize(new java.awt.Dimension(200, 30));
+        jPanel9.setPreferredSize(new java.awt.Dimension(200, 30));
         jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel6.setText("Expense");
-        jLabel6.setMaximumSize(new java.awt.Dimension(30, 30));
-        jLabel6.setMinimumSize(new java.awt.Dimension(30, 30));
-        jLabel6.setPreferredSize(new java.awt.Dimension(30, 30));
+        jLabel6.setMaximumSize(new java.awt.Dimension(80, 30));
+        jLabel6.setMinimumSize(new java.awt.Dimension(80, 30));
+        jLabel6.setPreferredSize(new java.awt.Dimension(80, 30));
         jPanel9.add(jLabel6);
 
         expense.setEditable(true);
@@ -518,13 +541,16 @@ public class Main extends javax.swing.JFrame {
 
         rightSideBar.add(jPanel9);
 
+        jPanel10.setMaximumSize(new java.awt.Dimension(200, 30));
+        jPanel10.setMinimumSize(new java.awt.Dimension(200, 30));
+        jPanel10.setPreferredSize(new java.awt.Dimension(200, 30));
         jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel7.setText("Matrix");
-        jLabel7.setMaximumSize(new java.awt.Dimension(30, 30));
-        jLabel7.setMinimumSize(new java.awt.Dimension(30, 30));
-        jLabel7.setPreferredSize(new java.awt.Dimension(30, 30));
+        jLabel7.setMaximumSize(new java.awt.Dimension(80, 30));
+        jLabel7.setMinimumSize(new java.awt.Dimension(80, 30));
+        jLabel7.setPreferredSize(new java.awt.Dimension(80, 30));
         jPanel10.add(jLabel7);
 
         matrix.setEditable(true);
@@ -547,15 +573,16 @@ public class Main extends javax.swing.JFrame {
 
         rightSideBar.add(jPanel10);
 
-        jPanel11.setMinimumSize(new java.awt.Dimension(150, 30));
-        jPanel11.setPreferredSize(new java.awt.Dimension(150, 30));
+        jPanel11.setMaximumSize(new java.awt.Dimension(200, 30));
+        jPanel11.setMinimumSize(new java.awt.Dimension(200, 30));
+        jPanel11.setPreferredSize(new java.awt.Dimension(200, 30));
         jPanel11.setLayout(new javax.swing.BoxLayout(jPanel11, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel8.setText("Payment");
-        jLabel8.setMaximumSize(new java.awt.Dimension(30, 30));
-        jLabel8.setMinimumSize(new java.awt.Dimension(30, 30));
-        jLabel8.setPreferredSize(new java.awt.Dimension(30, 30));
+        jLabel8.setMaximumSize(new java.awt.Dimension(80, 30));
+        jLabel8.setMinimumSize(new java.awt.Dimension(80, 30));
+        jLabel8.setPreferredSize(new java.awt.Dimension(80, 30));
         jPanel11.add(jLabel8);
 
         payment.setEditable(true);
@@ -672,23 +699,7 @@ public class Main extends javax.swing.JFrame {
         });
         addYearWorkbook.add(addWorkBook1);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(addYearWorkbook, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 175, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(addYearWorkbook, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        main.add(jPanel1, java.awt.BorderLayout.PAGE_START);
+        main.add(addYearWorkbook, java.awt.BorderLayout.PAGE_START);
 
         getContentPane().add(main, java.awt.BorderLayout.CENTER);
 
@@ -706,10 +717,6 @@ public class Main extends javax.swing.JFrame {
         closeProjectItem.setText("Close project");
         fileMenu.add(closeProjectItem);
         fileMenu.add(jSeparator2);
-
-        exportItem.setText("Export");
-        fileMenu.add(exportItem);
-        fileMenu.add(jSeparator3);
 
         exitProgramItem.setText("Exit program");
         fileMenu.add(exitProgramItem);
@@ -792,7 +799,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JSpinner expenseDate;
     private javax.swing.JSpinner expenseDate1;
     private javax.swing.JSpinner expenseDate2;
-    private javax.swing.JMenuItem exportItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JToolBar footer;
@@ -810,7 +816,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
@@ -823,7 +828,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JMenuItem javadocItem;
     private javax.swing.JTree leftNavigation;
     private javax.swing.JScrollPane leftScroll;
