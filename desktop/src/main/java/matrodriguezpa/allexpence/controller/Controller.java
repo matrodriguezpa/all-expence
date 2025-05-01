@@ -3,6 +3,8 @@ package matrodriguezpa.allexpence.controller;
 import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.HeadlessException;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -68,7 +70,7 @@ public class Controller {
         view.getNewProjectItem().addActionListener(e -> createProject());
         view.getOpenProjectItem().addActionListener(e -> openProject());
         view.getCloseProjectItem().addActionListener(e -> closeProject());
-        view.getAddWorkBook().addActionListener(e -> createProject());
+        view.getAddWorkBook().addActionListener(e -> createYear());
         view.getAddWorkBook1().addActionListener(e -> createMonth());
         view.getLeftNavigation().addTreeSelectionListener(e -> LeftNavigationValueChanged());
         view.getAddExpense().addActionListener(e -> createExpense());
@@ -80,7 +82,13 @@ public class Controller {
         view.getAboutItem().addActionListener(e -> openAboutWindow());
         view.getJavadocItem().addActionListener(e -> openJavaDoc());
         view.getdocumentationItem().addActionListener(e -> openDocumentation());
-        
+        view.getjTextField1().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (e.getKeyChar() == ' ') {showSpaceWarning();}
+            }
+        });
+
         updateNavigationTree();
         setViewVisible(false);
     }
@@ -163,30 +171,92 @@ public class Controller {
     }
 
     private void createProject() {
-        int result = JOptionPane.showConfirmDialog(view, view.getNewProjectJPanel(), "New Proyect", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        while (true) {
+            int result = JOptionPane.showConfirmDialog(
+                    view,
+                    view.getNewProjectJPanel(),
+                    "New Project",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE
+            );
 
-        if (result == JOptionPane.OK_OPTION) {
-            this.projectName = view.getjTextField1().getText();
-            this.projectYear = view.getjTextField2().getText();
-
-            if (projectName.isEmpty()) {
-                JOptionPane.showMessageDialog(view, "You must insert a project name.", "Error", JOptionPane.ERROR_MESSAGE);
+            if (result != JOptionPane.OK_OPTION) {
                 return;
             }
 
-            connectDatabase();
-            createProjectListTable();
+            String rawName = view.getjTextField1().getText().trim();
+            String yearText = view.getjTextField2().getText().trim();
 
-            insertNewProject(projectName, projectYear); //Se agrega el name en la tabla de proyectos
-            updateNavigationTree(); //Se carga el name en la vista
-
-            result = JOptionPane.showConfirmDialog(view, "Create new month?", "New month", JOptionPane.YES_NO_OPTION);
-
-            if (result == JOptionPane.OK_OPTION) {
-                createMonth();
-                updateNavigationTree();
+            if (!validateInputs(rawName, yearText)) {
+                continue;
             }
+
+            this.projectName = rawName.replace(' ', '_');
+            this.projectYear = validateYear(yearText);
+            break;
         }
+
+        connectDatabase();
+        createProjectListTable();
+        insertNewProject(projectName, projectYear);
+        updateNavigationTree();
+
+        if (JOptionPane.showConfirmDialog(view, "Create new month?", "New month",
+                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            createMonth();
+            updateNavigationTree();
+        }
+        setViewVisible(true);
+        updateNavigationTree();
+    }
+
+    private boolean validateInputs(String name, String year) {
+        if (name.isEmpty()) {
+            showError("You must insert a project name.");
+            return false;
+        }
+
+        if (!name.matches("[A-Za-zÁÉÍÓÚáéíóúÑñ ]+")) {
+            showError("The project name may only contain letters and spaces.");
+            return false;
+        }
+
+        try {
+            int y = Integer.parseInt(year);
+            if (y < 0 || y > 9999) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            showError("Project year must be a non-negative integer no greater than 9999.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void showError(String message) {
+        JOptionPane.showMessageDialog(view, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private String validateYear(String yearText) {
+        if (yearText == null || yearText.trim().isEmpty()) {
+            throw new IllegalArgumentException("Year cannot be empty");
+        }
+
+        try {
+            int year = Integer.parseInt(yearText);
+            if (year < 0 || year > 9999) {
+                throw new IllegalArgumentException("Year must be between 0-9999");
+            }
+            return String.valueOf(year);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Please enter a valid number");
+        }
+    }
+    
+    // Later in the class
+    private void showSpaceWarning() {
+        view.getWarning().setText("El proyecto será guardado como texto-con-espacios");
     }
 
     private void closeProject() {
@@ -219,6 +289,7 @@ public class Controller {
                 String projectYearlist = resul.getString(2);
 
                 // Create a new panel for each model-year entry
+                if (projectNamelist.equals( projectName)){ 
                 JPanel panelButtonList = new JPanel();
 
                 JLabel label = new JLabel(projectNamelist);
@@ -230,7 +301,7 @@ public class Controller {
 
                 // Add directly to view's panel
                 view.getProyectListJpanel().add(panelButtonList);
-            }
+            }}
         } catch (SQLException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -389,9 +460,11 @@ public class Controller {
             // Expandir todos los nodos del árbol
             expandAllNodes(view.getLeftNavigation(), root);
 
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+            LeftNavigationValueChanged2(root);
+            
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, e.getMessage());
+    }
 
     }
 
@@ -448,6 +521,19 @@ public class Controller {
                 System.out.println(this.projectName);
                 updateMainTable();
             }
+        }
+    }
+
+    private void LeftNavigationValueChanged2(DefaultMutableTreeNode root) {
+        // Buscar la primera hoja del árbol
+        DefaultMutableTreeNode currentNode = root;
+        while (!currentNode.isLeaf() && currentNode.getChildCount() > 0) {
+            currentNode = (DefaultMutableTreeNode) currentNode.getFirstChild();
+        }
+
+        if (currentNode != root) {  // Si encontramos una hoja (que no sea el root)
+            view.getLeftNavigation().setSelectionPath(new TreePath(currentNode.getPath()));
+            LeftNavigationValueChanged();
         }
     }
 
@@ -593,4 +679,49 @@ public class Controller {
             System.out.println("Error abriendo link");
         }
     }
+
+    private void createYear() {
+        while (true) {
+            view.getAddWorkbookLabel5().setText(projectName);
+
+            int result = JOptionPane.showConfirmDialog(
+                    view,
+                    view.getNewYear(),
+                    "New year",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE
+            );
+
+            if (result != JOptionPane.OK_OPTION) {
+                return;
+            }
+            
+            String yearText = view.getNewProjectYear1().getText().trim();
+
+
+            try {
+                validateYear(yearText);
+                this.projectYear = yearText;
+                break;
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(view,
+                        "Please enter a valid year (0-9999)",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+            insertNewProject(projectName, projectYear);
+            updateNavigationTree();
+
+            if (JOptionPane.showConfirmDialog(view, "Create new month?", "New month",
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                createMonth();
+            }
+            updateNavigationTree();
+            break;
+        }
+
+
+    }
+
 }

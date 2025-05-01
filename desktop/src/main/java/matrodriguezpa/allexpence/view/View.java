@@ -10,6 +10,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -233,6 +234,25 @@ public class View extends javax.swing.JFrame {
     public JMenuItem getdocumentationItem(){
         return documentationItem;
     }
+
+    public JLabel getWarning() {
+        return warning;
+    }
+
+    public JLabel getAddWorkbookLabel5() {
+        return addWorkbookLabel5;
+    }
+
+    public JPanel getNewYear() {
+        return NewYear;
+    }
+
+    public JTextField getNewProjectYear1() {
+        return newProjectYear1;
+    }
+    
+    
+    
     
     
     @SuppressWarnings("unchecked")
@@ -244,6 +264,7 @@ public class View extends javax.swing.JFrame {
         newProjectName = new javax.swing.JTextField();
         addWorkbookLabel2 = new javax.swing.JLabel();
         newProjectYear = new javax.swing.JTextField();
+        warning = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         CreateNewMonth = new javax.swing.JPanel();
@@ -260,6 +281,12 @@ public class View extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        NewYear = new javax.swing.JPanel();
+        addWorkbookLabel3 = new javax.swing.JLabel();
+        addWorkbookLabel5 = new javax.swing.JLabel();
+        addWorkbookLabel4 = new javax.swing.JLabel();
+        newProjectYear1 = new javax.swing.JTextField();
+        warning1 = new javax.swing.JLabel();
         rightSideBar = new javax.swing.JToolBar();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -327,6 +354,9 @@ public class View extends javax.swing.JFrame {
             }
         });
         NewProject.add(newProjectYear);
+
+        warning.setForeground(java.awt.Color.red);
+        NewProject.add(warning);
 
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.Y_AXIS));
 
@@ -410,6 +440,25 @@ public class View extends javax.swing.JFrame {
                 .addComponent(jLabel12)
                 .addContainerGap(85, Short.MAX_VALUE))
         );
+
+        NewYear.setLayout(new javax.swing.BoxLayout(NewYear, javax.swing.BoxLayout.Y_AXIS));
+
+        addWorkbookLabel3.setText("Name*");
+        NewYear.add(addWorkbookLabel3);
+        NewYear.add(addWorkbookLabel5);
+
+        addWorkbookLabel4.setText("Year");
+        NewYear.add(addWorkbookLabel4);
+
+        newProjectYear1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newProjectYear1ActionPerformed(evt);
+            }
+        });
+        NewYear.add(newProjectYear1);
+
+        warning1.setForeground(java.awt.Color.red);
+        NewYear.add(warning1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("One spencer");
@@ -771,10 +820,15 @@ public class View extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_aboutItemActionPerformed
 
+    private void newProjectYear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newProjectYear1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_newProjectYear1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CreateNewMonth;
     private javax.swing.JPanel NewProject;
+    private javax.swing.JPanel NewYear;
     private javax.swing.JMenuItem aboutItem;
     private javax.swing.JButton addCompanyButton;
     private javax.swing.JButton addExpense;
@@ -787,6 +841,9 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton addWorkBook1;
     private javax.swing.JLabel addWorkbookLabel1;
     private javax.swing.JLabel addWorkbookLabel2;
+    private javax.swing.JLabel addWorkbookLabel3;
+    private javax.swing.JLabel addWorkbookLabel4;
+    private javax.swing.JLabel addWorkbookLabel5;
     private javax.swing.JToolBar addYearWorkbook;
     private javax.swing.JTextField amount;
     private javax.swing.JToolBar bottomBar;
@@ -840,11 +897,14 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JMenuItem newProjectItem;
     private javax.swing.JTextField newProjectName;
     private javax.swing.JTextField newProjectYear;
+    private javax.swing.JTextField newProjectYear1;
     private javax.swing.JMenuItem openProjectItem;
     private javax.swing.JComboBox<String> payment;
     private javax.swing.JLabel programVersion;
     private javax.swing.JPanel proyectList;
     private javax.swing.JToolBar rightSideBar;
+    private javax.swing.JLabel warning;
+    private javax.swing.JLabel warning1;
     // End of variables declaration//GEN-END:variables
 
     public Object getAutoBudgetCheckBox() {
