@@ -1,0 +1,42 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #4a90e2;
+    color: white;
+    padding: 20px 40px;
+    text-align: center;
+}
+
+main {
+    padding: 40px;
+    max-width: 800px;
+    margin: auto;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+h2 {
+    color: #4a90e2;
+}
+
+a.download-link {
+    display: inline-block;
+    margin: 10px 0;
+    padding: 10px 20px;
+    background: #4a90e2;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+a.download-link:hover {
+    background: #357ab8;
+}
