@@ -17,11 +17,6 @@ header {
     justify-content: center;
 }
 
-header:hover {
-    color: #ff99c8;
-    transition: 0.5s;
-}
-
 header img {
     width: 7em;
     height: 7em;
