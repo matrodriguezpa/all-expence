@@ -1,7 +1,7 @@
-package matrodriguezpa.allexpence.controller;
+package matrodriguezpa.receiptmanager.controller;
 
-import matrodriguezpa.allexpence.model.model;
-import matrodriguezpa.allexpence.view.View;
+import matrodriguezpa.receiptmanager.model.Model;
+import matrodriguezpa.receiptmanager.view.View;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 
 public class Controller {
 
-    private final model model;
+    private final Model model;
     private final View view;
 
     private String projectName;
@@ -35,7 +35,7 @@ public class Controller {
     private DefaultTreeModel treeModel;
 
     /*Constructor*/
-    public Controller(model model, View view) {
+    public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
         initController();
@@ -148,7 +148,7 @@ public class Controller {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(view, "Error creating the project: " + e.getMessage());
         }
-    }//insert a new model on the model list table
+    }//insert a new Model on the Model list table
 
     private void insertNewMonth(int monthNumber, String projectName) {
         if (monthNumber < 1 || monthNumber > 12) {
@@ -286,7 +286,7 @@ public class Controller {
                 String projectNamelist = resul.getString(1);
                 String projectYearlist = resul.getString(2);
 
-                // Create a new panel for each model-year entry
+                // Create a new panel for each Model-year entry
                 if (projectNamelist.equals(projectName)) {
                     JPanel panelButtonList = new JPanel();
 
@@ -714,7 +714,7 @@ public class Controller {
 
     private void openJavaDoc() {
         try {
-            Desktop.getDesktop().browse(new URI("https://www.openai.com"));
+            Desktop.getDesktop().browse(new URI("https://matrodriguezpa.github.io/receipt-manager/javadoc/code-docs"));
         } catch (IOException | URISyntaxException ex) {
             System.out.println("Error abriendo link");
         }
@@ -722,7 +722,7 @@ public class Controller {
 
     private void openDocumentation() {
         try {
-            Desktop.getDesktop().browse(new URI("https://www.openai.com"));
+            Desktop.getDesktop().browse(new URI("https://matrodriguezpa.github.io/receipt-manager/userguide/user-guide"));
         } catch (IOException | URISyntaxException ex) {
             System.out.println("Error abriendo link");
         }

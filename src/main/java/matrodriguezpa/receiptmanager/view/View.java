@@ -1,4 +1,4 @@
-package matrodriguezpa.allexpence.view;
+package matrodriguezpa.receiptmanager.view;
 
 import javax.swing.*;
 import javax.swing.SwingUtilities;
@@ -245,7 +245,7 @@ public class View extends javax.swing.JFrame {
         addExpenseButtonGroup = new javax.swing.ButtonGroup();
         About = new javax.swing.JPanel();
         GitHub = new javax.swing.JLabel();
-        Copyrigth = new javax.swing.JLabel();
+        Author = new javax.swing.JLabel();
         NewYear = new javax.swing.JPanel();
         addWorkbookLabel3 = new javax.swing.JLabel();
         addNewYearProjectName = new javax.swing.JLabel();
@@ -375,32 +375,13 @@ public class View extends javax.swing.JFrame {
         });
         expenseDataLoader.add(newExpenseData);
 
-        GitHub.setText("matrodriguezpa on Github");
+        About.setLayout(new java.awt.GridLayout(0, 1));
 
-        Copyrigth.setText("All expencer copygith");
+        GitHub.setText("Created by:");
+        About.add(GitHub);
 
-        javax.swing.GroupLayout AboutLayout = new javax.swing.GroupLayout(About);
-        About.setLayout(AboutLayout);
-        AboutLayout.setHorizontalGroup(
-            AboutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AboutLayout.createSequentialGroup()
-                .addContainerGap(59, Short.MAX_VALUE)
-                .addComponent(GitHub)
-                .addGap(56, 56, 56))
-            .addGroup(AboutLayout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addComponent(Copyrigth)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        AboutLayout.setVerticalGroup(
-            AboutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(AboutLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(GitHub)
-                .addGap(44, 44, 44)
-                .addComponent(Copyrigth)
-                .addContainerGap(85, Short.MAX_VALUE))
-        );
+        Author.setText("matrodriguezpa on Github");
+        About.add(Author);
 
         NewYear.setLayout(new javax.swing.BoxLayout(NewYear, javax.swing.BoxLayout.Y_AXIS));
 
@@ -805,7 +786,7 @@ public class View extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel About;
     private javax.swing.JLabel Amount;
-    private javax.swing.JLabel Copyrigth;
+    private javax.swing.JLabel Author;
     private javax.swing.JPanel CreateNewMonth;
     private javax.swing.JLabel Date;
     private javax.swing.JLabel GitHub;

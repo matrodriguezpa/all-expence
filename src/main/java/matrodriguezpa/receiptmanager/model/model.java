@@ -1,4 +1,4 @@
-package matrodriguezpa.allexpence.model;
+package matrodriguezpa.receiptmanager.model;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class model {
+public class Model {
 
     // Construct the URL to the SQLite database in the user's Documents directory
     private final String url = constructDatabaseUrl();
@@ -21,7 +21,7 @@ public class model {
         String userHome = System.getProperty("user.home");
 
         // Construct the path to the OneSpencer directory within Documents
-        Path documentsPath = Paths.get(userHome, "Documents", "OneSpencer", "Database.db");
+        Path documentsPath = Paths.get(userHome, "Documents", "ReceiptManager", "Database.db");
 
         // Check if the path exists (optional)
         if (!documentsPath.toFile().exists()) {
