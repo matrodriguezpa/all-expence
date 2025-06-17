@@ -1,39 +1,26 @@
 package matrodriguezpa.allexpence.controller;
 
-import java.awt.Component;
-import java.awt.Desktop;
-import java.awt.HeadlessException;
+import matrodriguezpa.allexpence.model.model;
+import matrodriguezpa.allexpence.view.View;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.AbstractButton;
-import javax.swing.JTree;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.tree.TreePath;
-
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-
-import matrodriguezpa.allexpence.model.model;
-import matrodriguezpa.allexpence.view.View;
 
 public class Controller {
 
@@ -42,7 +29,7 @@ public class Controller {
 
     private String projectName;
     private String projectYear;
-    private String proyectMonth;
+    private String projectMonth;
 
     private DefaultTableModel tableModel;
     private DefaultTreeModel treeModel;
@@ -66,7 +53,7 @@ public class Controller {
         view.getExitProgramItem().addActionListener(e -> closeProgram());
 
         //user
-        
+
         //project-period
         view.getNewProjectItem().addActionListener(e -> createProject());
         view.getOpenProjectItem().addActionListener(e -> openProject());
@@ -273,7 +260,7 @@ public class Controller {
     private void closeProject() {
         projectName = null;
         projectYear = null;
-        proyectMonth = null;
+        projectMonth = null;
 
         updateMainTable();
         updateNavigationTree();
@@ -357,7 +344,7 @@ public class Controller {
 
     private void createExpense() {
         try {
-            String sql = "INSERT INTO " + projectName + "_" + projectYear + "_" + proyectMonth + " (date, company, amount, expense, matrix, payment) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO " + projectName + "_" + projectYear + "_" + projectMonth + " (date, company, amount, expense, matrix, payment) VALUES (?, ?, ?, ?, ?, ?)";
 
             // Establecer los valores para cada columna (ajustar según los tipos de datos de las columnas)
             int Year = (int) view.getExpenseDateYear().getValue();
@@ -399,7 +386,7 @@ public class Controller {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
-    
+
     private void createYear() {
         while (true) {
             view.getAddNewYearProjectName().setText(projectName);
@@ -443,9 +430,6 @@ public class Controller {
     }
 
 
-    
-    
-    
     private void expeseAddButton(int index) {//el indice seleccionadode la lista company, expense, matrix, payment
 
         view.getAddExpensedata().setSelectedIndex(index);
@@ -568,13 +552,13 @@ public class Controller {
             // Verificar si el nodo es una hoja (nodo final)
             if (selectedNode.isLeaf()) {
                 // Asignar el valor del mes correspondiente al nodo seleccionado
-                this.proyectMonth = (String) selectedNode.getUserObject(); // Asegúrate de que el objeto sea del tipo adecuado
+                this.projectMonth = (String) selectedNode.getUserObject(); // Asegúrate de que el objeto sea del tipo adecuado
                 DefaultMutableTreeNode parent = (DefaultMutableTreeNode) selectedNode.getParent();
                 this.projectYear = (String) parent.getUserObject(); // Asegúrate de que el objeto sea del tipo adecuado
                 parent = (DefaultMutableTreeNode) parent.getParent();
                 this.projectName = (String) parent.getUserObject();
 
-                System.out.println(this.proyectMonth);
+                System.out.println(this.projectMonth);
                 System.out.println(this.projectYear);
                 System.out.println(this.projectName);
                 updateMainTable();
@@ -604,31 +588,28 @@ public class Controller {
         }
 
         try {
-            String sql = "SELECT * FROM " + projectName + "_" + projectYear + "_" + proyectMonth;
+            String sql = "SELECT * FROM " + projectName + "_" + projectYear + "_" + projectMonth;
             System.out.println("Consulta SQL: " + sql);
             ResultSet resul = model.executeQuery(sql);
 
             while (resul.next()) {
                 tableModel.addRow(new Object[]{
-                    resul.getString("date"),
-                    resul.getString("company"),
-                    resul.getDouble("amount"),
-                    resul.getString("expense"),
-                    resul.getString("matrix"),
-                    resul.getString("payment"),});
+                        resul.getString("date"),
+                        resul.getString("company"),
+                        resul.getDouble("amount"),
+                        resul.getString("expense"),
+                        resul.getString("matrix"),
+                        resul.getString("payment"),});
             }
             view.getExpenseDateYear().setValue(Integer.valueOf(projectYear));
-            view.getExpenseDateMonth().setValue(Integer.valueOf(proyectMonth));
+            view.getExpenseDateMonth().setValue(Integer.valueOf(projectMonth));
         } catch (SQLException e) {
 
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 
-    
-    
-    
-    
+
     /*abrir name*/
     private void openProject() {
 
@@ -691,11 +672,7 @@ public class Controller {
         return null;
     }
 
-    
-    
-    
-    
-    
+
     /* Methods to close up the programm */
     private void cleanupResources() {
         // Perform any cleanup tasks, such as saving data or closing files
@@ -720,9 +697,7 @@ public class Controller {
         }
     }
 
-    
-    
-    
+
     private void openAboutWindow() {
 
         // Create a JOptionPane with the panel and OK option
