@@ -64,10 +64,10 @@ public class model {
         stmt.executeUpdate();
     }
 
-    public void executeUpdateProjectMonthBudget(String sql,String active, String projectName) throws SQLException {
+    public void executeUpdateProjectMonthBudget(String sql, String active, String projectName) throws SQLException {
         try (PreparedStatement stmt = connect.prepareStatement(sql)) {
-        stmt.setString(1, active);
-        stmt.setString(2, projectName);
+            stmt.setString(1, active);
+            stmt.setString(2, projectName);
             stmt.executeUpdate();
         }
     }

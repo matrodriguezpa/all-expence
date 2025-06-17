@@ -1,56 +1,48 @@
 package matrodriguezpa.allexpence.view;
 
-import javax.swing.ImageIcon; // Para cargar el icono de la aplicaciòn
-import javax.swing.UIManager; // Para mostrar el icono
-import javax.swing.UnsupportedLookAndFeelException; // Expepsiones el cargar los estilos
-import com.formdev.flatlaf.FlatLightLaf; //Generar estilos de la aplicaciòn
+import javax.swing.*;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import com.formdev.flatlaf.FlatLightLaf;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JTree;
 
 public class View extends javax.swing.JFrame {
 
     ImageIcon icon = new ImageIcon("src\\main\\resources\\Images\\Logo.png"); //Icono de la aplicación
-    FlatLightLaf style = new FlatLightLaf();
 
     public View() {
-        try {
-            UIManager.setLookAndFeel(style);
-        } catch (UnsupportedLookAndFeelException e) {
-            System.out.println(e);
-        }
+        initComponents();
+        showLoadingScreen();
+        applyFlatLaf();         // now force FlatLaf onto existing components
+    }
 
+    private void showLoadingScreen() {
         // Create loading window
-        JFrame loadingFrame = new JFrame("Loading");
+        JFrame loadingFrame = new JFrame();
         loadingFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         loadingFrame.setUndecorated(true); // Removes window decorations
 
-        Loading loadingPanel = new Loading();
-        loadingFrame.getContentPane().add(loadingPanel);
+        loadingFrame.getContentPane().add(this.loadingPanel);
         loadingFrame.pack(); // Sizes frame to fit the loading panel
         loadingFrame.setLocationRelativeTo(null);
         loadingFrame.setVisible(true);
-
+        
         try {
             Thread.sleep(2500); // Wait for 1 second
             loadingFrame.dispose();
         } catch (InterruptedException ex) {
             Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        // Initialize components after loading
-        initComponents();
+    }
 
+    private void applyFlatLaf() {
+        try {
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (UnsupportedLookAndFeelException e) {
+        }
+        SwingUtilities.updateComponentTreeUI(this);
     }
 
     //GETTERS & SETTERS
@@ -70,79 +62,70 @@ public class View extends javax.swing.JFrame {
         return closeProjectItem;
     }
 
-    public JMenuItem getDocumentationItem() {
-        return documentationItem;
-    }
-
     public JMenuItem getExitProgramItem() {
         return exitProgramItem;
     }
 
-    public JPanel getNewProjectJPanel() {
+    public JPanel getNewProject() {
         return NewProject;
     }
 
-    public void setjPanel2(JPanel jPanel2) {
-        this.NewProject = jPanel2;
+    public void setNewProject(JPanel newProject) {
+        this.NewProject = newProject;
     }
 
     public Object getCreateNewMonth() {
         return CreateNewMonth;
     }
 
-    public void setjTextField1(JTextField jTextField1) {
-        this.newProjectName = jTextField1;
+    public void setNewProjectName(JTextField newProjectName) {
+        this.newProjectName = newProjectName;
     }
 
-    public JTextField getjTextField1() {
+    public JTextField getNewProjectName() {
         return newProjectName;
     }
 
-    public JTextField getjTextField2() {
+    public JTextField getNewProjectYear() {
         return newProjectYear;
     }
 
-    public JComboBox getjComboBox1() {
-        return jComboBox1;
+    public JComboBox getMonthsList() {
+        return monthsList;
     }
 
     public JTree getLeftNavigation() {
         return leftNavigation;
     }
 
-    public JPanel getjPanel5() {
-        return jPanel5;
+    public JPanel getProjectList() {
+        return projectList;
     }
 
-    public JPanel getProyectListJpanel() {
-        return proyectList;
+    public JButton getAddProject() {
+        return addProject;
     }
 
-    public JButton getAddWorkBook() {
-        return addWorkBook;
+    public JButton getAddMonth() {
+        return addMonth;
     }
 
-    public JButton getAddWorkBook1() {
-        return addWorkBook1;
+    public JSpinner getExpenseDateYear() {
+        return expenseDateYear;
     }
 
-    public JSpinner getExpenseDate2() {
-        return expenseDate2;
-    }
-    
-    public JSpinner getExpenseDate1() {
-        return expenseDate1;
+    public JSpinner getExpenseDateMonth() {
+        return expenseDateMonth;
     }
 
     //for new expenses
-    public JSpinner getExpenseDate() {
-        return expenseDate;
+    public JSpinner getExpenseDateDay() {
+        return expenseDateDay;
     }
 
     public JTextField getAmount() {
         return amount;
     }
-
 
     public JComboBox<String> getExpense() {
         return expense;
@@ -156,16 +139,16 @@ public class View extends javax.swing.JFrame {
         return mainTable;
     }
 
-    public JPanel getjPanel6() {
-        return jPanel6;
+    public JPanel getAbout() {
+        return About;
     }
 
-    public JPanel getjPanel12() {
-        return jPanel12;
+    public JPanel getExpenseDataLoader() {
+        return expenseDataLoader;
     }
 
-    public void setjPanel12(JPanel jPanel12) {
-        this.jPanel12 = jPanel12;
+    public void setExpenseDataLoader(JPanel expenseDataLoader) {
+        this.expenseDataLoader = expenseDataLoader;
     }
 
     public JComboBox<String> getCompany() {
@@ -188,8 +171,8 @@ public class View extends javax.swing.JFrame {
         return addExpense;
     }
 
-    public JTextField getAddExpenseDataJText() {
-        return addExpenseDataJText;
+    public JTextField getNewExpenseData() {
+        return newExpenseData;
     }
 
     public JComboBox<String> getAddExpensedata() {
@@ -209,52 +192,37 @@ public class View extends javax.swing.JFrame {
     }
 
     public JButton getAddExpenseButton() {
-        return addExpensebutton;
+        return addExpenseButton;
     }
 
-    public ButtonGroup getButtonGroup1() {
-        return buttonGroup1;
-    }
-
-    public JButton getAddExpensebutton() {
-        return addExpensebutton;
-    }
-    
-    public JButton getaddWorkbook(){
-        return addWorkBook;
-    }
-    public JButton getaddWorkbook1(){
-        return addWorkBook1;
+    public ButtonGroup getAddExpenseButtonGroup() {
+        return addExpenseButtonGroup;
     }
 
     public JMenuItem getJavadocItem() {
         return javadocItem;
     }
-    
-    public JMenuItem getdocumentationItem(){
-        return documentationItem;
+
+    public JMenuItem getUserDocItem() {
+        return userDocItem;
     }
 
     public JLabel getWarning() {
         return warning;
     }
 
-    public JLabel getAddWorkbookLabel5() {
-        return addWorkbookLabel5;
+    public JLabel getAddNewYearProjectName() {
+        return addNewYearProjectName;
     }
 
     public JPanel getNewYear() {
         return NewYear;
     }
 
-    public JTextField getNewProjectYear1() {
-        return newProjectYear1;
+    public JTextField getNewYearProject() {
+        return newYearProject;
     }
-    
-    
-    
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -265,50 +233,52 @@ public class View extends javax.swing.JFrame {
         addWorkbookLabel2 = new javax.swing.JLabel();
         newProjectYear = new javax.swing.JTextField();
         warning = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         CreateNewMonth = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        proyectList = new javax.swing.JPanel();
+        projectList = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jPanel5 = new javax.swing.JPanel();
-        jPanel12 = new javax.swing.JPanel();
+        monthsList = new javax.swing.JComboBox<>();
+        expenseDataLoader = new javax.swing.JPanel();
         addExpensedata = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
-        addExpenseDataJText = new javax.swing.JTextField();
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        newExpenseData = new javax.swing.JTextField();
+        addExpenseButtonGroup = new javax.swing.ButtonGroup();
+        About = new javax.swing.JPanel();
+        GitHub = new javax.swing.JLabel();
+        Copyrigth = new javax.swing.JLabel();
         NewYear = new javax.swing.JPanel();
         addWorkbookLabel3 = new javax.swing.JLabel();
-        addWorkbookLabel5 = new javax.swing.JLabel();
+        addNewYearProjectName = new javax.swing.JLabel();
         addWorkbookLabel4 = new javax.swing.JLabel();
-        newProjectYear1 = new javax.swing.JTextField();
+        newYearProject = new javax.swing.JTextField();
         warning1 = new javax.swing.JLabel();
+        loadingPanel = new javax.swing.JPanel();
+        loadingImage = new javax.swing.JLabel();
+        loadingFooter = new javax.swing.JSplitPane();
+        author = new javax.swing.JLabel();
+        version = new javax.swing.JLabel();
         rightSideBar = new javax.swing.JToolBar();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        expenseDate2 = new javax.swing.JSpinner();
-        expenseDate1 = new javax.swing.JSpinner();
-        expenseDate = new javax.swing.JSpinner();
-        jPanel8 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        newExpenseAddDate = new javax.swing.JPanel();
+        Date = new javax.swing.JLabel();
+        expenseDateYear = new javax.swing.JSpinner();
+        expenseDateMonth = new javax.swing.JSpinner();
+        expenseDateDay = new javax.swing.JSpinner();
+        newExpenseAddCompany = new javax.swing.JPanel();
+        companyLabel = new javax.swing.JLabel();
         company = new javax.swing.JComboBox<>();
         addCompanyButton = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
+        newExpenseAddAmount = new javax.swing.JPanel();
+        Amount = new javax.swing.JLabel();
         amount = new javax.swing.JTextField();
-        jPanel9 = new javax.swing.JPanel();
+        newExpenseAddExpense = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         expense = new javax.swing.JComboBox<>();
-        addExpensebutton = new javax.swing.JButton();
-        jPanel10 = new javax.swing.JPanel();
+        addExpenseButton = new javax.swing.JButton();
+        newExpenseAddMatrix = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         matrix = new javax.swing.JComboBox<>();
         addMatrixButton = new javax.swing.JButton();
-        jPanel11 = new javax.swing.JPanel();
+        newExpenseAddPayment = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         payment = new javax.swing.JComboBox<>();
         addPaymentButton = new javax.swing.JButton();
@@ -321,11 +291,9 @@ public class View extends javax.swing.JFrame {
         main = new javax.swing.JPanel();
         mainTableScroll = new javax.swing.JScrollPane();
         mainTable = new javax.swing.JTable();
-        bottomBar = new javax.swing.JToolBar();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(250, 0), new java.awt.Dimension(32767, 0));
-        addYearWorkbook = new javax.swing.JToolBar();
-        addWorkBook = new javax.swing.JButton();
-        addWorkBook1 = new javax.swing.JButton();
+        mainTableHeader = new javax.swing.JToolBar();
+        addProject = new javax.swing.JButton();
+        addMonth = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         newProjectItem = new javax.swing.JMenuItem();
@@ -335,7 +303,7 @@ public class View extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         exitProgramItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
-        documentationItem = new javax.swing.JMenuItem();
+        userDocItem = new javax.swing.JMenuItem();
         javadocItem = new javax.swing.JMenuItem();
         aboutItem = new javax.swing.JMenuItem();
 
@@ -358,19 +326,14 @@ public class View extends javax.swing.JFrame {
         warning.setForeground(java.awt.Color.red);
         NewProject.add(warning);
 
-        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.Y_AXIS));
-
-        jLabel1.setText("Selecionar proyectos");
-        jPanel3.add(jLabel1);
-
         CreateNewMonth.setLayout(new javax.swing.BoxLayout(CreateNewMonth, javax.swing.BoxLayout.Y_AXIS));
 
         jLabel4.setText("Seleccionar año");
         CreateNewMonth.add(jLabel4);
 
-        proyectList.setMinimumSize(new java.awt.Dimension(50, 50));
-        proyectList.setLayout(new javax.swing.BoxLayout(proyectList, javax.swing.BoxLayout.Y_AXIS));
-        CreateNewMonth.add(proyectList);
+        projectList.setMinimumSize(new java.awt.Dimension(50, 50));
+        projectList.setLayout(new javax.swing.BoxLayout(projectList, javax.swing.BoxLayout.Y_AXIS));
+        CreateNewMonth.add(projectList);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel2.setText("Seleccionar mes");
@@ -378,18 +341,16 @@ public class View extends javax.swing.JFrame {
         jLabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         CreateNewMonth.add(jLabel2);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
-        jComboBox1.setMaximumSize(new java.awt.Dimension(100, 30));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        monthsList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
+        monthsList.setMaximumSize(new java.awt.Dimension(100, 30));
+        monthsList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                monthsListActionPerformed(evt);
             }
         });
-        CreateNewMonth.add(jComboBox1);
+        CreateNewMonth.add(monthsList);
 
-        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.Y_AXIS));
-
-        jPanel12.setLayout(new javax.swing.BoxLayout(jPanel12, javax.swing.BoxLayout.Y_AXIS));
+        expenseDataLoader.setLayout(new javax.swing.BoxLayout(expenseDataLoader, javax.swing.BoxLayout.Y_AXIS));
 
         addExpensedata.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Company", "expense", "Matrix", "Payment" }));
         addExpensedata.setMaximumSize(new java.awt.Dimension(140, 30));
@@ -400,44 +361,44 @@ public class View extends javax.swing.JFrame {
                 addExpensedataActionPerformed(evt);
             }
         });
-        jPanel12.add(addExpensedata);
-        jPanel12.add(jLabel10);
+        expenseDataLoader.add(addExpensedata);
+        expenseDataLoader.add(jLabel10);
 
-        addExpenseDataJText.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        addExpenseDataJText.setMaximumSize(new java.awt.Dimension(140, 30));
-        addExpenseDataJText.setMinimumSize(new java.awt.Dimension(140, 30));
-        addExpenseDataJText.setPreferredSize(new java.awt.Dimension(140, 30));
-        addExpenseDataJText.addActionListener(new java.awt.event.ActionListener() {
+        newExpenseData.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        newExpenseData.setMaximumSize(new java.awt.Dimension(140, 30));
+        newExpenseData.setMinimumSize(new java.awt.Dimension(140, 30));
+        newExpenseData.setPreferredSize(new java.awt.Dimension(140, 30));
+        newExpenseData.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addExpenseDataJTextActionPerformed(evt);
+                newExpenseDataActionPerformed(evt);
             }
         });
-        jPanel12.add(addExpenseDataJText);
+        expenseDataLoader.add(newExpenseData);
 
-        jLabel11.setText("matrodriguezpa on Github");
+        GitHub.setText("matrodriguezpa on Github");
 
-        jLabel12.setText("All expencer copygith");
+        Copyrigth.setText("All expencer copygith");
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+        javax.swing.GroupLayout AboutLayout = new javax.swing.GroupLayout(About);
+        About.setLayout(AboutLayout);
+        AboutLayout.setHorizontalGroup(
+            AboutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AboutLayout.createSequentialGroup()
                 .addContainerGap(59, Short.MAX_VALUE)
-                .addComponent(jLabel11)
+                .addComponent(GitHub)
                 .addGap(56, 56, 56))
-            .addGroup(jPanel6Layout.createSequentialGroup()
+            .addGroup(AboutLayout.createSequentialGroup()
                 .addGap(67, 67, 67)
-                .addComponent(jLabel12)
+                .addComponent(Copyrigth)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
+        AboutLayout.setVerticalGroup(
+            AboutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AboutLayout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addComponent(jLabel11)
+                .addComponent(GitHub)
                 .addGap(44, 44, 44)
-                .addComponent(jLabel12)
+                .addComponent(Copyrigth)
                 .addContainerGap(85, Short.MAX_VALUE))
         );
 
@@ -445,20 +406,43 @@ public class View extends javax.swing.JFrame {
 
         addWorkbookLabel3.setText("Name*");
         NewYear.add(addWorkbookLabel3);
-        NewYear.add(addWorkbookLabel5);
+        NewYear.add(addNewYearProjectName);
 
         addWorkbookLabel4.setText("Year");
         NewYear.add(addWorkbookLabel4);
 
-        newProjectYear1.addActionListener(new java.awt.event.ActionListener() {
+        newYearProject.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newProjectYear1ActionPerformed(evt);
+                newYearProjectActionPerformed(evt);
             }
         });
-        NewYear.add(newProjectYear1);
+        NewYear.add(newYearProject);
 
         warning1.setForeground(java.awt.Color.red);
         NewYear.add(warning1);
+
+        loadingPanel.setBackground(new java.awt.Color(255, 102, 153));
+        loadingPanel.setLayout(new java.awt.BorderLayout());
+
+        loadingImage.setBackground(new java.awt.Color(255, 51, 153));
+        loadingImage.setForeground(new java.awt.Color(255, 51, 102));
+        loadingImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Tittle.png"))); // NOI18N
+        loadingPanel.add(loadingImage, java.awt.BorderLayout.CENTER);
+
+        loadingFooter.setBackground(new java.awt.Color(255, 51, 102));
+        loadingFooter.setDividerLocation(150);
+        loadingFooter.setDividerSize(0);
+
+        author.setForeground(new java.awt.Color(255, 255, 255));
+        author.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        author.setText("By matrodriguezpa");
+        loadingFooter.setRightComponent(author);
+
+        version.setForeground(new java.awt.Color(255, 255, 255));
+        version.setText("v0.1 beta");
+        loadingFooter.setLeftComponent(version);
+
+        loadingPanel.add(loadingFooter, java.awt.BorderLayout.SOUTH);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("One spencer");
@@ -472,187 +456,187 @@ public class View extends javax.swing.JFrame {
         rightSideBar.setMinimumSize(new java.awt.Dimension(300, 300));
         rightSideBar.setPreferredSize(new java.awt.Dimension(300, 300));
 
-        jPanel2.setMaximumSize(new java.awt.Dimension(200, 30));
-        jPanel2.setMinimumSize(new java.awt.Dimension(200, 30));
-        jPanel2.setPreferredSize(new java.awt.Dimension(200, 30));
-        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
+        newExpenseAddDate.setMaximumSize(new java.awt.Dimension(200, 30));
+        newExpenseAddDate.setMinimumSize(new java.awt.Dimension(200, 30));
+        newExpenseAddDate.setPreferredSize(new java.awt.Dimension(200, 30));
+        newExpenseAddDate.setLayout(new javax.swing.BoxLayout(newExpenseAddDate, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel3.setText("Date");
-        jLabel3.setMaximumSize(new java.awt.Dimension(35, 30));
-        jLabel3.setMinimumSize(new java.awt.Dimension(35, 30));
-        jLabel3.setPreferredSize(new java.awt.Dimension(35, 30));
-        jPanel2.add(jLabel3);
+        Date.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        Date.setText("Date");
+        Date.setMaximumSize(new java.awt.Dimension(35, 30));
+        Date.setMinimumSize(new java.awt.Dimension(35, 30));
+        Date.setPreferredSize(new java.awt.Dimension(35, 30));
+        newExpenseAddDate.add(Date);
 
-        expenseDate2.setModel(new javax.swing.SpinnerNumberModel(2025, null, null, 1));
-        expenseDate2.setEnabled(false);
-        expenseDate2.setMaximumSize(new java.awt.Dimension(65, 30));
-        expenseDate2.setMinimumSize(new java.awt.Dimension(65, 30));
-        expenseDate2.setPreferredSize(new java.awt.Dimension(65, 30));
-        jPanel2.add(expenseDate2);
+        expenseDateYear.setModel(new javax.swing.SpinnerNumberModel(2025, null, null, 1));
+        expenseDateYear.setEnabled(false);
+        expenseDateYear.setMaximumSize(new java.awt.Dimension(65, 30));
+        expenseDateYear.setMinimumSize(new java.awt.Dimension(65, 30));
+        expenseDateYear.setPreferredSize(new java.awt.Dimension(65, 30));
+        newExpenseAddDate.add(expenseDateYear);
 
-        expenseDate1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
-        expenseDate1.setEnabled(false);
-        expenseDate1.setFocusable(false);
-        expenseDate1.setMaximumSize(new java.awt.Dimension(50, 30));
-        expenseDate1.setMinimumSize(new java.awt.Dimension(50, 30));
-        expenseDate1.setPreferredSize(new java.awt.Dimension(50, 30));
-        jPanel2.add(expenseDate1);
+        expenseDateMonth.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
+        expenseDateMonth.setEnabled(false);
+        expenseDateMonth.setFocusable(false);
+        expenseDateMonth.setMaximumSize(new java.awt.Dimension(50, 30));
+        expenseDateMonth.setMinimumSize(new java.awt.Dimension(50, 30));
+        expenseDateMonth.setPreferredSize(new java.awt.Dimension(50, 30));
+        newExpenseAddDate.add(expenseDateMonth);
 
-        expenseDate.setModel(new javax.swing.SpinnerNumberModel(1, 1, 31, 1));
-        expenseDate.setMaximumSize(new java.awt.Dimension(50, 30));
-        expenseDate.setMinimumSize(new java.awt.Dimension(50, 30));
-        expenseDate.setPreferredSize(new java.awt.Dimension(50, 30));
-        jPanel2.add(expenseDate);
+        expenseDateDay.setModel(new javax.swing.SpinnerNumberModel(1, 1, 31, 1));
+        expenseDateDay.setMaximumSize(new java.awt.Dimension(50, 30));
+        expenseDateDay.setMinimumSize(new java.awt.Dimension(50, 30));
+        expenseDateDay.setPreferredSize(new java.awt.Dimension(50, 30));
+        newExpenseAddDate.add(expenseDateDay);
 
-        rightSideBar.add(jPanel2);
+        rightSideBar.add(newExpenseAddDate);
 
-        jPanel8.setMaximumSize(new java.awt.Dimension(200, 30));
-        jPanel8.setMinimumSize(new java.awt.Dimension(200, 30));
-        jPanel8.setPreferredSize(new java.awt.Dimension(200, 30));
-        jPanel8.setLayout(new javax.swing.BoxLayout(jPanel8, javax.swing.BoxLayout.LINE_AXIS));
+        newExpenseAddCompany.setMaximumSize(new java.awt.Dimension(200, 30));
+        newExpenseAddCompany.setMinimumSize(new java.awt.Dimension(200, 30));
+        newExpenseAddCompany.setPreferredSize(new java.awt.Dimension(200, 30));
+        newExpenseAddCompany.setLayout(new javax.swing.BoxLayout(newExpenseAddCompany, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel5.setText("Company");
-        jLabel5.setMaximumSize(new java.awt.Dimension(80, 30));
-        jLabel5.setMinimumSize(new java.awt.Dimension(80, 30));
-        jLabel5.setPreferredSize(new java.awt.Dimension(80, 30));
-        jPanel8.add(jLabel5);
+        companyLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        companyLabel.setText("Company");
+        companyLabel.setMaximumSize(new java.awt.Dimension(80, 30));
+        companyLabel.setMinimumSize(new java.awt.Dimension(80, 30));
+        companyLabel.setPreferredSize(new java.awt.Dimension(80, 30));
+        newExpenseAddCompany.add(companyLabel);
 
         company.setEditable(true);
         company.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "opcion1", "opcion2" }));
         company.setMaximumSize(new java.awt.Dimension(120, 30));
         company.setMinimumSize(new java.awt.Dimension(20, 20));
         company.setPreferredSize(new java.awt.Dimension(80, 20));
-        jPanel8.add(company);
+        newExpenseAddCompany.add(company);
 
         addCompanyButton.setBackground(new java.awt.Color(102, 102, 255));
         addCompanyButton.setForeground(new java.awt.Color(255, 255, 255));
         addCompanyButton.setText("+");
-        buttonGroup1.add(addCompanyButton);
+        addExpenseButtonGroup.add(addCompanyButton);
         addCompanyButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         addCompanyButton.setMaximumSize(new java.awt.Dimension(30, 30));
         addCompanyButton.setMinimumSize(new java.awt.Dimension(30, 30));
         addCompanyButton.setPreferredSize(new java.awt.Dimension(30, 30));
         addCompanyButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jPanel8.add(addCompanyButton);
+        newExpenseAddCompany.add(addCompanyButton);
 
-        rightSideBar.add(jPanel8);
+        rightSideBar.add(newExpenseAddCompany);
 
-        jPanel4.setMaximumSize(new java.awt.Dimension(200, 30));
-        jPanel4.setMinimumSize(new java.awt.Dimension(200, 30));
-        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.LINE_AXIS));
+        newExpenseAddAmount.setMaximumSize(new java.awt.Dimension(200, 30));
+        newExpenseAddAmount.setMinimumSize(new java.awt.Dimension(200, 30));
+        newExpenseAddAmount.setLayout(new javax.swing.BoxLayout(newExpenseAddAmount, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel9.setText("Amount");
-        jLabel9.setMaximumSize(new java.awt.Dimension(80, 30));
-        jLabel9.setMinimumSize(new java.awt.Dimension(80, 30));
-        jLabel9.setPreferredSize(new java.awt.Dimension(80, 30));
-        jPanel4.add(jLabel9);
+        Amount.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        Amount.setText("Amount");
+        Amount.setMaximumSize(new java.awt.Dimension(80, 30));
+        Amount.setMinimumSize(new java.awt.Dimension(80, 30));
+        Amount.setPreferredSize(new java.awt.Dimension(80, 30));
+        newExpenseAddAmount.add(Amount);
 
         amount.setText("1000");
         amount.setMaximumSize(new java.awt.Dimension(120, 30));
         amount.setMinimumSize(new java.awt.Dimension(120, 30));
         amount.setPreferredSize(new java.awt.Dimension(120, 30));
-        jPanel4.add(amount);
+        newExpenseAddAmount.add(amount);
 
-        rightSideBar.add(jPanel4);
+        rightSideBar.add(newExpenseAddAmount);
 
-        jPanel9.setMaximumSize(new java.awt.Dimension(200, 30));
-        jPanel9.setMinimumSize(new java.awt.Dimension(200, 30));
-        jPanel9.setPreferredSize(new java.awt.Dimension(200, 30));
-        jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.LINE_AXIS));
+        newExpenseAddExpense.setMaximumSize(new java.awt.Dimension(200, 30));
+        newExpenseAddExpense.setMinimumSize(new java.awt.Dimension(200, 30));
+        newExpenseAddExpense.setPreferredSize(new java.awt.Dimension(200, 30));
+        newExpenseAddExpense.setLayout(new javax.swing.BoxLayout(newExpenseAddExpense, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel6.setText("Expense");
         jLabel6.setMaximumSize(new java.awt.Dimension(80, 30));
         jLabel6.setMinimumSize(new java.awt.Dimension(80, 30));
         jLabel6.setPreferredSize(new java.awt.Dimension(80, 30));
-        jPanel9.add(jLabel6);
+        newExpenseAddExpense.add(jLabel6);
 
         expense.setEditable(true);
         expense.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Personal", "Trabajo" }));
         expense.setMaximumSize(new java.awt.Dimension(120, 30));
         expense.setMinimumSize(new java.awt.Dimension(20, 20));
         expense.setPreferredSize(new java.awt.Dimension(80, 20));
-        jPanel9.add(expense);
+        newExpenseAddExpense.add(expense);
 
-        addExpensebutton.setBackground(new java.awt.Color(102, 102, 255));
-        addExpensebutton.setForeground(new java.awt.Color(255, 255, 255));
-        addExpensebutton.setText("+");
-        buttonGroup1.add(addExpensebutton);
-        addExpensebutton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        addExpensebutton.setMaximumSize(new java.awt.Dimension(30, 30));
-        addExpensebutton.setMinimumSize(new java.awt.Dimension(30, 30));
-        addExpensebutton.setPreferredSize(new java.awt.Dimension(30, 30));
-        addExpensebutton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jPanel9.add(addExpensebutton);
+        addExpenseButton.setBackground(new java.awt.Color(102, 102, 255));
+        addExpenseButton.setForeground(new java.awt.Color(255, 255, 255));
+        addExpenseButton.setText("+");
+        addExpenseButtonGroup.add(addExpenseButton);
+        addExpenseButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        addExpenseButton.setMaximumSize(new java.awt.Dimension(30, 30));
+        addExpenseButton.setMinimumSize(new java.awt.Dimension(30, 30));
+        addExpenseButton.setPreferredSize(new java.awt.Dimension(30, 30));
+        addExpenseButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        newExpenseAddExpense.add(addExpenseButton);
 
-        rightSideBar.add(jPanel9);
+        rightSideBar.add(newExpenseAddExpense);
 
-        jPanel10.setMaximumSize(new java.awt.Dimension(200, 30));
-        jPanel10.setMinimumSize(new java.awt.Dimension(200, 30));
-        jPanel10.setPreferredSize(new java.awt.Dimension(200, 30));
-        jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.LINE_AXIS));
+        newExpenseAddMatrix.setMaximumSize(new java.awt.Dimension(200, 30));
+        newExpenseAddMatrix.setMinimumSize(new java.awt.Dimension(200, 30));
+        newExpenseAddMatrix.setPreferredSize(new java.awt.Dimension(200, 30));
+        newExpenseAddMatrix.setLayout(new javax.swing.BoxLayout(newExpenseAddMatrix, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel7.setText("Matrix");
         jLabel7.setMaximumSize(new java.awt.Dimension(80, 30));
         jLabel7.setMinimumSize(new java.awt.Dimension(80, 30));
         jLabel7.setPreferredSize(new java.awt.Dimension(80, 30));
-        jPanel10.add(jLabel7);
+        newExpenseAddMatrix.add(jLabel7);
 
         matrix.setEditable(true);
         matrix.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hogar", "Universidad" }));
         matrix.setMaximumSize(new java.awt.Dimension(120, 30));
         matrix.setMinimumSize(new java.awt.Dimension(20, 20));
         matrix.setPreferredSize(new java.awt.Dimension(80, 20));
-        jPanel10.add(matrix);
+        newExpenseAddMatrix.add(matrix);
 
         addMatrixButton.setBackground(new java.awt.Color(102, 102, 255));
         addMatrixButton.setForeground(new java.awt.Color(255, 255, 255));
         addMatrixButton.setText("+");
-        buttonGroup1.add(addMatrixButton);
+        addExpenseButtonGroup.add(addMatrixButton);
         addMatrixButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         addMatrixButton.setMaximumSize(new java.awt.Dimension(30, 30));
         addMatrixButton.setMinimumSize(new java.awt.Dimension(30, 30));
         addMatrixButton.setPreferredSize(new java.awt.Dimension(30, 30));
         addMatrixButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jPanel10.add(addMatrixButton);
+        newExpenseAddMatrix.add(addMatrixButton);
 
-        rightSideBar.add(jPanel10);
+        rightSideBar.add(newExpenseAddMatrix);
 
-        jPanel11.setMaximumSize(new java.awt.Dimension(200, 30));
-        jPanel11.setMinimumSize(new java.awt.Dimension(200, 30));
-        jPanel11.setPreferredSize(new java.awt.Dimension(200, 30));
-        jPanel11.setLayout(new javax.swing.BoxLayout(jPanel11, javax.swing.BoxLayout.LINE_AXIS));
+        newExpenseAddPayment.setMaximumSize(new java.awt.Dimension(200, 30));
+        newExpenseAddPayment.setMinimumSize(new java.awt.Dimension(200, 30));
+        newExpenseAddPayment.setPreferredSize(new java.awt.Dimension(200, 30));
+        newExpenseAddPayment.setLayout(new javax.swing.BoxLayout(newExpenseAddPayment, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel8.setText("Payment");
         jLabel8.setMaximumSize(new java.awt.Dimension(80, 30));
         jLabel8.setMinimumSize(new java.awt.Dimension(80, 30));
         jLabel8.setPreferredSize(new java.awt.Dimension(80, 30));
-        jPanel11.add(jLabel8);
+        newExpenseAddPayment.add(jLabel8);
 
         payment.setEditable(true);
         payment.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tarjeta", "Efectivo" }));
         payment.setMaximumSize(new java.awt.Dimension(120, 30));
         payment.setMinimumSize(new java.awt.Dimension(20, 20));
         payment.setPreferredSize(new java.awt.Dimension(80, 20));
-        jPanel11.add(payment);
+        newExpenseAddPayment.add(payment);
 
         addPaymentButton.setBackground(new java.awt.Color(102, 102, 255));
         addPaymentButton.setForeground(new java.awt.Color(255, 255, 255));
         addPaymentButton.setText("+");
-        buttonGroup1.add(addPaymentButton);
+        addExpenseButtonGroup.add(addPaymentButton);
         addPaymentButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         addPaymentButton.setMaximumSize(new java.awt.Dimension(30, 30));
         addPaymentButton.setMinimumSize(new java.awt.Dimension(30, 30));
         addPaymentButton.setPreferredSize(new java.awt.Dimension(30, 30));
         addPaymentButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jPanel11.add(addPaymentButton);
+        newExpenseAddPayment.add(addPaymentButton);
 
-        rightSideBar.add(jPanel11);
+        rightSideBar.add(newExpenseAddPayment);
 
         addExpense.setBackground(new java.awt.Color(51, 102, 255));
         addExpense.setForeground(new java.awt.Color(255, 255, 255));
@@ -714,41 +698,34 @@ public class View extends javax.swing.JFrame {
 
         main.add(mainTableScroll, java.awt.BorderLayout.CENTER);
 
-        bottomBar.setRollover(true);
-        bottomBar.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
-        bottomBar.setEnabled(false);
-        bottomBar.add(filler1);
+        mainTableHeader.setRollover(true);
+        mainTableHeader.setMaximumSize(new java.awt.Dimension(150, 30));
+        mainTableHeader.setMinimumSize(new java.awt.Dimension(150, 30));
+        mainTableHeader.setPreferredSize(new java.awt.Dimension(150, 30));
+        mainTableHeader.setRequestFocusEnabled(false);
 
-        main.add(bottomBar, java.awt.BorderLayout.PAGE_END);
+        addProject.setBackground(new java.awt.Color(51, 102, 255));
+        addProject.setForeground(new java.awt.Color(255, 255, 255));
+        addProject.setText("AddProject");
+        addProject.setFocusable(false);
+        addProject.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        addProject.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        mainTableHeader.add(addProject);
 
-        addYearWorkbook.setRollover(true);
-        addYearWorkbook.setMaximumSize(new java.awt.Dimension(150, 30));
-        addYearWorkbook.setMinimumSize(new java.awt.Dimension(150, 30));
-        addYearWorkbook.setPreferredSize(new java.awt.Dimension(150, 30));
-        addYearWorkbook.setRequestFocusEnabled(false);
-
-        addWorkBook.setBackground(new java.awt.Color(51, 102, 255));
-        addWorkBook.setForeground(new java.awt.Color(255, 255, 255));
-        addWorkBook.setText("AddProyect");
-        addWorkBook.setFocusable(false);
-        addWorkBook.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        addWorkBook.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        addYearWorkbook.add(addWorkBook);
-
-        addWorkBook1.setBackground(new java.awt.Color(51, 102, 255));
-        addWorkBook1.setForeground(new java.awt.Color(255, 255, 255));
-        addWorkBook1.setText("AddMonth");
-        addWorkBook1.setFocusable(false);
-        addWorkBook1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        addWorkBook1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        addWorkBook1.addActionListener(new java.awt.event.ActionListener() {
+        addMonth.setBackground(new java.awt.Color(51, 102, 255));
+        addMonth.setForeground(new java.awt.Color(255, 255, 255));
+        addMonth.setText("AddMonth");
+        addMonth.setFocusable(false);
+        addMonth.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        addMonth.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        addMonth.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addWorkBook1ActionPerformed(evt);
+                addMonthActionPerformed(evt);
             }
         });
-        addYearWorkbook.add(addWorkBook1);
+        mainTableHeader.add(addMonth);
 
-        main.add(addYearWorkbook, java.awt.BorderLayout.PAGE_START);
+        main.add(mainTableHeader, java.awt.BorderLayout.PAGE_START);
 
         getContentPane().add(main, java.awt.BorderLayout.CENTER);
 
@@ -775,8 +752,8 @@ public class View extends javax.swing.JFrame {
         helpMenu.setBackground(new java.awt.Color(51, 102, 255));
         helpMenu.setText("Help");
 
-        documentationItem.setText("Documentation");
-        helpMenu.add(documentationItem);
+        userDocItem.setText("Documentation");
+        helpMenu.add(userDocItem);
 
         javadocItem.setText("Javadoc");
         helpMenu.add(javadocItem);
@@ -796,21 +773,21 @@ public class View extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void monthsListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthsListActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_monthsListActionPerformed
 
-    private void addWorkBook1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addWorkBook1ActionPerformed
+    private void addMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMonthActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_addWorkBook1ActionPerformed
+    }//GEN-LAST:event_addMonthActionPerformed
 
     private void newProjectYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newProjectYearActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_newProjectYearActionPerformed
 
-    private void addExpenseDataJTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addExpenseDataJTextActionPerformed
+    private void newExpenseDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newExpenseDataActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_addExpenseDataJTextActionPerformed
+    }//GEN-LAST:event_newExpenseDataActionPerformed
 
     private void addExpensedataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addExpensedataActionPerformed
         // TODO add your handling code here:
@@ -820,95 +797,90 @@ public class View extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_aboutItemActionPerformed
 
-    private void newProjectYear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newProjectYear1ActionPerformed
+    private void newYearProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newYearProjectActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_newProjectYear1ActionPerformed
+    }//GEN-LAST:event_newYearProjectActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel About;
+    private javax.swing.JLabel Amount;
+    private javax.swing.JLabel Copyrigth;
     private javax.swing.JPanel CreateNewMonth;
+    private javax.swing.JLabel Date;
+    private javax.swing.JLabel GitHub;
     private javax.swing.JPanel NewProject;
     private javax.swing.JPanel NewYear;
     private javax.swing.JMenuItem aboutItem;
     private javax.swing.JButton addCompanyButton;
     private javax.swing.JButton addExpense;
-    private javax.swing.JTextField addExpenseDataJText;
-    private javax.swing.JButton addExpensebutton;
+    private javax.swing.JButton addExpenseButton;
+    private javax.swing.ButtonGroup addExpenseButtonGroup;
     private javax.swing.JComboBox<String> addExpensedata;
     private javax.swing.JButton addMatrixButton;
+    private javax.swing.JButton addMonth;
+    private javax.swing.JLabel addNewYearProjectName;
     private javax.swing.JButton addPaymentButton;
-    private javax.swing.JButton addWorkBook;
-    private javax.swing.JButton addWorkBook1;
+    private javax.swing.JButton addProject;
     private javax.swing.JLabel addWorkbookLabel1;
     private javax.swing.JLabel addWorkbookLabel2;
     private javax.swing.JLabel addWorkbookLabel3;
     private javax.swing.JLabel addWorkbookLabel4;
-    private javax.swing.JLabel addWorkbookLabel5;
-    private javax.swing.JToolBar addYearWorkbook;
     private javax.swing.JTextField amount;
-    private javax.swing.JToolBar bottomBar;
-    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JLabel author;
     private javax.swing.JMenuItem closeProjectItem;
     private javax.swing.JComboBox<String> company;
-    private javax.swing.JMenuItem documentationItem;
+    private javax.swing.JLabel companyLabel;
     private javax.swing.JMenuItem exitProgramItem;
     private javax.swing.JComboBox<String> expense;
-    private javax.swing.JSpinner expenseDate;
-    private javax.swing.JSpinner expenseDate1;
-    private javax.swing.JSpinner expenseDate2;
+    private javax.swing.JPanel expenseDataLoader;
+    private javax.swing.JSpinner expenseDateDay;
+    private javax.swing.JSpinner expenseDateMonth;
+    private javax.swing.JSpinner expenseDateYear;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.Box.Filler filler1;
     private javax.swing.JToolBar footer;
     private javax.swing.JMenu helpMenu;
-    public javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuItem javadocItem;
     private javax.swing.JTree leftNavigation;
     private javax.swing.JScrollPane leftScroll;
     private javax.swing.JToolBar leftSibeBar;
+    private javax.swing.JSplitPane loadingFooter;
+    private javax.swing.JLabel loadingImage;
+    private javax.swing.JPanel loadingPanel;
     private javax.swing.JPanel main;
     private javax.swing.JTable mainTable;
+    private javax.swing.JToolBar mainTableHeader;
     private javax.swing.JScrollPane mainTableScroll;
     private javax.swing.JComboBox<String> matrix;
     private javax.swing.JMenuBar menuBar;
+    public javax.swing.JComboBox<String> monthsList;
+    private javax.swing.JPanel newExpenseAddAmount;
+    private javax.swing.JPanel newExpenseAddCompany;
+    private javax.swing.JPanel newExpenseAddDate;
+    private javax.swing.JPanel newExpenseAddExpense;
+    private javax.swing.JPanel newExpenseAddMatrix;
+    private javax.swing.JPanel newExpenseAddPayment;
+    private javax.swing.JTextField newExpenseData;
     private javax.swing.JMenuItem newProjectItem;
     private javax.swing.JTextField newProjectName;
     private javax.swing.JTextField newProjectYear;
-    private javax.swing.JTextField newProjectYear1;
+    private javax.swing.JTextField newYearProject;
     private javax.swing.JMenuItem openProjectItem;
     private javax.swing.JComboBox<String> payment;
     private javax.swing.JLabel programVersion;
-    private javax.swing.JPanel proyectList;
+    private javax.swing.JPanel projectList;
     private javax.swing.JToolBar rightSideBar;
+    private javax.swing.JMenuItem userDocItem;
+    private javax.swing.JLabel version;
     private javax.swing.JLabel warning;
     private javax.swing.JLabel warning1;
     // End of variables declaration//GEN-END:variables
-
-    public Object getAutoBudgetCheckBox() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
 }
