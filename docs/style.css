@@ -1,8 +1,8 @@
 /* Base */
 body {
     font-family: Arial, sans-serif;
-    background: #ffe5ec;            /* very light pink */
-    color: #4a001f;                /* deep maroon */
+    background: #ffe5ec; /* very light pink */
+    color: #4a001f; /* deep maroon */
     margin: 0;
     padding: 0;
 }
@@ -10,11 +10,16 @@ body {
 /* Header with pink→red gradient */
 header {
     background: linear-gradient(135deg, #ff99c8, #ff4d6d);
-    color: white;
     padding: 20px 40px;
+    color: white;
     text-align: center;
     display: flex;
     justify-content: center;
+}
+
+header:hover {
+    color: #ff99c8;
+    transition: 0.5s;
 }
 
 header img {
@@ -42,7 +47,7 @@ h2 {
 /* Links */
 a {
     text-decoration: none;
-    color: #e6004c;                /* link in strong pink */
+    color: #e6004c; /* link in strong pink */
 }
 
 a:hover {
@@ -54,20 +59,20 @@ a.download-link {
     display: inline-block;
     margin: 10px 0;
     padding: 10px 20px;
-    background: #ff4d6d;           /* bright red-pink */
+    background: #ff4d6d; /* bright red-pink */
     color: white;
     border-radius: 5px;
     text-decoration: none;
 }
 
 a.download-link:hover {
-    background: #e6004c;           /* darker pink/red on hover */
+    background: #e6004c; /* darker pink/red on hover */
 }
 
 /* Footer with red→pink gradient */
 footer {
     padding: 20px;
-    background: linear-gradient(135deg, #ff4d6d, #ff99c8);
+    background: linear-gradient(180deg, #ffe5ec, #ff99c8);
     color: white;
     display: flex;
     align-items: center;
@@ -84,7 +89,7 @@ footer a:hover {
 }
 
 .footer-logo {
-    width: 50px;                   /* adjust as needed */
+    width: 50px; /* adjust as needed */
     height: auto;
     margin-top: 8px;
 }
